@@ -82,7 +82,8 @@ ultimhier@strata$Pop <- recode(ultimhier@strata$Pop, "d_ff"="wayne_fall-12", "d_
 splitStrata(ultimhier) <- ~County/Season
 
 #Accessing strata data of the genind object
-strata(ultimhier)
+ult.str <- strata(ultimhier)
+knitr::kable(ult.str, format = "markdown")
 ```
 
 Looking at multilocus genotypes at the county level.  Kalamazoo contains most of the multilocus genotypes.

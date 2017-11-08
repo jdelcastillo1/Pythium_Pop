@@ -27,6 +27,7 @@ ipak(packages)
 ```
 
 ##Data input
+
 ```{r}
 #Reading genealex object
 ultimhier <- read.genalex("../data/ult3pop.csv")
@@ -51,6 +52,7 @@ gac <- genotype_curve(ultimhier, sample = 1000, quiet = TRUE)
 
 ##Genotype diversity
 Basic summary of Pythium population data and definition of multilocus genotypes.
+
 ```{r summary}
 ult_table <- poppr(ultimhier)
 knitr::kable(ult_table[,-13], format="markdown", digits = 3,
@@ -72,6 +74,7 @@ mlg.id <- mlg.id(ultimhier)
 
 First, the strata will be recoded to facilitate interpretation of the data.  Then, the strata will be divided to generated a nested 
 hierarchy.  The idea is that season is nested within county.
+
 ```{r}
 #recode strata
 ultimhier@strata$Pop <- recode(ultimhier@strata$Pop, "d_ff"="wayne_fall-12", "d_ss"="wayne_spring-13", 
@@ -86,7 +89,18 @@ ult.str <- strata(ultimhier)
 knitr::kable(head(ult.str, n = 20), format = "markdown") 
 ```
 
-Looking at multilocus genotypes at the county level.  Kalamazoo contains most of the multilocus genotypes.
+Using strata, the populations could be defined using the strata.  A hierarchy using `county/season` or just by `season` or `county`.
+
+```{r County_season}
+setPop(ultimhier) <- ~County/Season
+ultimhier
+
+setPop(ultimhier)<- ~Season
+ultimhier
+```
+
+If the populations are defined by **county**, there are three populations.  By looking at multilocus genotypes at the county level, Kalamazoo contains most of the multilocus genotypes.
+
 ```{r county_pop}
 #Setting up a population by county (3 populations/counties)
 setPop(ultimhier) <- ~County
@@ -98,14 +112,10 @@ ult.tab <- mlg.table(ultimhier)
 #write.table(poppr(ult.tab, sep = ",", file = "~/Documents/MLGbycounty.csv")
 ```
 
-Using strata, the populations could be defined using the strata.  A hierarchy using `county/season` or just by `season` or `county` like in the previous chunck.
+Now, if the poplation is defined by **season**, there will be three populations as well, these refer to seasons across years sampled.
 
-```{r County_season}
-setPop(ultimhier) <- ~County/Season
-ultimhier
-
+```{r 3pop_data, fig.width=10}
 setPop(ultimhier)<- ~Season
-ultimhier
+ult.tab <- mlg.table(ultimhier)
+#write.table(ult.tab, sep = ",", file = "~/Documents/frequencies3pop.csv")
 ```
-
-

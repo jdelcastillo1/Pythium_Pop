@@ -22,17 +22,17 @@ sapply(pkg, require, character.only = TRUE)
 
 
 ```{r libraries, echo=FALSE, message=FALSE, results='hide'}
-packages <- c("ggplot2","RColorBrewer","poppr", "dplyr")
+packages <- c("ggplot2","RColorBrewer","poppr", "dplyr", "knitr")
 ipak(packages)
 ```
 
 ##Data input
 ```{r}
 #Reading genealex object
-ultimhier <- read.genalex("data/ult3pop.csv")
+ultimhier <- read.genalex("../data/ult3pop.csv")
 
 #recode populations
-ultimhier@pop <- recode(ultimhier@pop, "d_ff"="wayne_fall-12", "d_ss"="wayne_spring-13", 
+ultimhier@pop <- dplyr::recode(ultimhier@pop, "d_ff"="wayne_fall-12", "d_ss"="wayne_spring-13", 
        "g_f"="kent_fall-11", "k_f"="kalamazoo_fall-11", "k_ff"="kalamazoo_fall-12",
        "k_ss"="kalamazoo_spring-13")
 ```

@@ -9,10 +9,10 @@
 
 ```r
 #Reading genealex object
-ultimhier <- read.genalex("ult3pop.csv")
+ultimhier <- read.genalex("../data/ult3pop.csv")
 
 #recode populations
-ultimhier@pop <- recode(ultimhier@pop, "d_ff"="wayne_fall-12", "d_ss"="wayne_spring-13", 
+ultimhier@pop <- dplyr::recode(ultimhier@pop, "d_ff"="wayne_fall-12", "d_ss"="wayne_spring-13", 
        "g_f"="kent_fall-11", "k_f"="kalamazoo_fall-11", "k_ff"="kalamazoo_fall-12",
        "k_ss"="kalamazoo_spring-13")
 ```
@@ -106,14 +106,180 @@ ultimhier@strata$Pop <- recode(ultimhier@strata$Pop, "d_ff"="wayne_fall-12", "d_
 splitStrata(ultimhier) <- ~County/Season
 
 #Accessing strata data of the genind object
-strata(ultimhier)
+ult.str <- strata(ultimhier)
+knitr::kable(ult.str, format = "markdown")
 ```
 
-<div data-pagedtable="false">
-  <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["County"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["Season"],"name":[2],"type":["fctr"],"align":["left"]}],"data":[{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kalamazoo","2":"fall-11"},{"1":"kent","2":"fall-11"},{"1":"kent","2":"fall-11"},{"1":"kent","2":"fall-11"},{"1":"kent","2":"fall-11"},{"1":"wayne","2":"spring-13"},{"1":"wayne","2":"spring-13"},{"1":"kalamazoo","2":"spring-13"},{"1":"kalamazoo","2":"spring-13"},{"1":"kalamazoo","2":"spring-13"},{"1":"kalamazoo","2":"spring-13"},{"1":"kalamazoo","2":"spring-13"},{"1":"wayne","2":"fall-12"},{"1":"wayne","2":"fall-12"},{"1":"wayne","2":"fall-12"},{"1":"wayne","2":"fall-12"},{"1":"wayne","2":"fall-12"},{"1":"wayne","2":"fall-12"},{"1":"wayne","2":"fall-12"},{"1":"wayne","2":"fall-12"},{"1":"wayne","2":"fall-12"},{"1":"wayne","2":"fall-12"},{"1":"wayne","2":"fall-12"},{"1":"wayne","2":"fall-12"},{"1":"wayne","2":"fall-12"},{"1":"wayne","2":"fall-12"},{"1":"wayne","2":"fall-12"},{"1":"wayne","2":"fall-12"},{"1":"wayne","2":"fall-12"},{"1":"wayne","2":"fall-12"},{"1":"kalamazoo","2":"fall-12"},{"1":"kalamazoo","2":"fall-12"},{"1":"kalamazoo","2":"fall-12"},{"1":"kalamazoo","2":"fall-12"},{"1":"kalamazoo","2":"fall-12"},{"1":"kalamazoo","2":"fall-12"},{"1":"kalamazoo","2":"fall-12"},{"1":"kalamazoo","2":"fall-12"},{"1":"kalamazoo","2":"fall-12"},{"1":"kalamazoo","2":"fall-12"},{"1":"kalamazoo","2":"fall-12"},{"1":"kalamazoo","2":"fall-12"},{"1":"kalamazoo","2":"fall-12"},{"1":"kalamazoo","2":"fall-12"},{"1":"kalamazoo","2":"fall-12"},{"1":"kalamazoo","2":"fall-12"},{"1":"kalamazoo","2":"fall-12"},{"1":"kalamazoo","2":"fall-12"},{"1":"kalamazoo","2":"fall-12"},{"1":"kalamazoo","2":"fall-12"},{"1":"kalamazoo","2":"fall-12"},{"1":"kalamazoo","2":"fall-12"},{"1":"kalamazoo","2":"fall-12"},{"1":"kalamazoo","2":"fall-12"},{"1":"kalamazoo","2":"fall-12"},{"1":"kalamazoo","2":"fall-12"},{"1":"kalamazoo","2":"fall-12"},{"1":"kalamazoo","2":"fall-12"},{"1":"kalamazoo","2":"fall-12"},{"1":"kalamazoo","2":"fall-12"},{"1":"kalamazoo","2":"fall-12"},{"1":"kalamazoo","2":"fall-12"},{"1":"kalamazoo","2":"fall-12"},{"1":"kalamazoo","2":"fall-12"},{"1":"kalamazoo","2":"fall-12"},{"1":"kalamazoo","2":"fall-12"},{"1":"kalamazoo","2":"fall-12"},{"1":"kalamazoo","2":"fall-12"},{"1":"kalamazoo","2":"fall-12"},{"1":"kalamazoo","2":"fall-12"},{"1":"kalamazoo","2":"fall-12"},{"1":"kalamazoo","2":"fall-12"},{"1":"kalamazoo","2":"fall-12"},{"1":"kalamazoo","2":"fall-12"},{"1":"kalamazoo","2":"fall-12"},{"1":"kalamazoo","2":"fall-12"},{"1":"kalamazoo","2":"fall-12"},{"1":"kalamazoo","2":"spring-13"},{"1":"kalamazoo","2":"spring-13"},{"1":"kalamazoo","2":"spring-13"},{"1":"kalamazoo","2":"spring-13"},{"1":"kalamazoo","2":"spring-13"},{"1":"kalamazoo","2":"spring-13"},{"1":"kalamazoo","2":"spring-13"},{"1":"kalamazoo","2":"spring-13"},{"1":"kalamazoo","2":"spring-13"},{"1":"kalamazoo","2":"spring-13"},{"1":"kalamazoo","2":"spring-13"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
-  </script>
-</div>
+
+
+|County    |Season    |
+|:---------|:---------|
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kalamazoo |fall-11   |
+|kent      |fall-11   |
+|kent      |fall-11   |
+|kent      |fall-11   |
+|kent      |fall-11   |
+|wayne     |spring-13 |
+|wayne     |spring-13 |
+|kalamazoo |spring-13 |
+|kalamazoo |spring-13 |
+|kalamazoo |spring-13 |
+|kalamazoo |spring-13 |
+|kalamazoo |spring-13 |
+|wayne     |fall-12   |
+|wayne     |fall-12   |
+|wayne     |fall-12   |
+|wayne     |fall-12   |
+|wayne     |fall-12   |
+|wayne     |fall-12   |
+|wayne     |fall-12   |
+|wayne     |fall-12   |
+|wayne     |fall-12   |
+|wayne     |fall-12   |
+|wayne     |fall-12   |
+|wayne     |fall-12   |
+|wayne     |fall-12   |
+|wayne     |fall-12   |
+|wayne     |fall-12   |
+|wayne     |fall-12   |
+|wayne     |fall-12   |
+|wayne     |fall-12   |
+|kalamazoo |fall-12   |
+|kalamazoo |fall-12   |
+|kalamazoo |fall-12   |
+|kalamazoo |fall-12   |
+|kalamazoo |fall-12   |
+|kalamazoo |fall-12   |
+|kalamazoo |fall-12   |
+|kalamazoo |fall-12   |
+|kalamazoo |fall-12   |
+|kalamazoo |fall-12   |
+|kalamazoo |fall-12   |
+|kalamazoo |fall-12   |
+|kalamazoo |fall-12   |
+|kalamazoo |fall-12   |
+|kalamazoo |fall-12   |
+|kalamazoo |fall-12   |
+|kalamazoo |fall-12   |
+|kalamazoo |fall-12   |
+|kalamazoo |fall-12   |
+|kalamazoo |fall-12   |
+|kalamazoo |fall-12   |
+|kalamazoo |fall-12   |
+|kalamazoo |fall-12   |
+|kalamazoo |fall-12   |
+|kalamazoo |fall-12   |
+|kalamazoo |fall-12   |
+|kalamazoo |fall-12   |
+|kalamazoo |fall-12   |
+|kalamazoo |fall-12   |
+|kalamazoo |fall-12   |
+|kalamazoo |fall-12   |
+|kalamazoo |fall-12   |
+|kalamazoo |fall-12   |
+|kalamazoo |fall-12   |
+|kalamazoo |fall-12   |
+|kalamazoo |fall-12   |
+|kalamazoo |fall-12   |
+|kalamazoo |fall-12   |
+|kalamazoo |fall-12   |
+|kalamazoo |fall-12   |
+|kalamazoo |fall-12   |
+|kalamazoo |fall-12   |
+|kalamazoo |fall-12   |
+|kalamazoo |fall-12   |
+|kalamazoo |fall-12   |
+|kalamazoo |fall-12   |
+|kalamazoo |fall-12   |
+|kalamazoo |spring-13 |
+|kalamazoo |spring-13 |
+|kalamazoo |spring-13 |
+|kalamazoo |spring-13 |
+|kalamazoo |spring-13 |
+|kalamazoo |spring-13 |
+|kalamazoo |spring-13 |
+|kalamazoo |spring-13 |
+|kalamazoo |spring-13 |
+|kalamazoo |spring-13 |
+|kalamazoo |spring-13 |
 
 Looking at multilocus genotypes at the county level.  Kalamazoo contains most of the multilocus genotypes.
 

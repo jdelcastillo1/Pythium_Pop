@@ -59,8 +59,8 @@ knitr::kable(ult_table[,-13], format="markdown", digits = 3,
              caption=" Summary statistics of P. ultimum populations")
 ```
 
-Generating a table for the multilocus genotypes accors populations
-```{r mlgs}
+Generating a table for the multilocus genotypes across populations
+```{r mlgs, fig.width=10}
 #Matrix indicating mulitlocus genotypes (MLGs) by population
 ult.tab <- mlg.table(ultimhier)
 
@@ -101,7 +101,7 @@ ultimhier
 
 If the populations are defined by **county**, there are three populations.  By looking at multilocus genotypes at the county level, Kalamazoo contains most of the multilocus genotypes.
 
-```{r county_pop}
+```{r county_pop, fig.width=10}
 #Setting up a population by county (3 populations/counties)
 setPop(ultimhier) <- ~County
 
@@ -118,4 +118,9 @@ Now, if the poplation is defined by **season**, there will be three populations 
 setPop(ultimhier)<- ~Season
 ult.tab <- mlg.table(ultimhier)
 #write.table(ult.tab, sep = ",", file = "~/Documents/frequencies3pop.csv")
+```
+
+
+```{r saving_rda, echo=FALSE, message=FALSE}
+#save(ultimhier, file = "Pyult.rda")
 ```

@@ -10,6 +10,7 @@
 
 ##Data input
 
+
 ```r
 #Reading genealex object
 ultimhier <- read.genalex("../data/ult3pop.csv")
@@ -60,6 +61,7 @@ gac <- genotype_curve(ultimhier, sample = 1000, quiet = TRUE)
 ##Genotype diversity
 Basic summary of Pythium population data and definition of multilocus genotypes.
 
+
 ```r
 ult_table <- poppr(ultimhier)
 knitr::kable(ult_table[,-13], format="markdown", digits = 3,
@@ -78,7 +80,7 @@ knitr::kable(ult_table[,-13], format="markdown", digits = 3,
 |kalamazoo_spring-13 |  16|  13| 8.875| 0.743| 2.513| 11.636|  0.914| 0.938| 0.482| 1.530| 0.326|
 |Total               | 166|  65| 8.519| 1.086| 3.629| 21.562|  0.954| 0.561| 0.550| 1.194| 0.256|
 
-Generating a table for the multilocus genotypes accors populations
+Generating a table for the multilocus genotypes across populations
 
 ```r
 #Matrix indicating mulitlocus genotypes (MLGs) by population
@@ -98,6 +100,7 @@ mlg.id <- mlg.id(ultimhier)
 
 First, the strata will be recoded to facilitate interpretation of the data.  Then, the strata will be divided to generated a nested 
 hierarchy.  The idea is that season is nested within county.
+
 
 ```r
 #recode strata
@@ -138,24 +141,7 @@ knitr::kable(head(ult.str, n = 20), format = "markdown")
 |kalamazoo |fall-11 |
 |kalamazoo |fall-11 |
 
-Looking at multilocus genotypes at the county level.  Kalamazoo contains most of the multilocus genotypes.
-
-```r
-#Setting up a population by county (3 populations/counties)
-setPop(ultimhier) <- ~County
-
-#Summary of multilocus genotypes by county
-ult.tab <- mlg.table(ultimhier)
-```
-
-![](Pythium_popgen_files/figure-html/county_pop-1.png)<!-- -->
-
-```r
-#write.table(poppr(ultimhier), sep = ",", file = "~/Documents/genotypebycounty.csv")
-#write.table(poppr(ult.tab, sep = ",", file = "~/Documents/MLGbycounty.csv")
-```
-
-Using strata, the populations could be defined using the strata.  A hierarchy using `county/season` or just by `season` or `county` like in the previous chunck.
+Using strata, the populations could be defined using the strata.  A hierarchy using `county/season` or just by `season` or `county`.
 
 
 ```r
@@ -200,5 +186,38 @@ ultimhier
 ##      2 strata - County, Season
 ##      3 populations defined - fall-11, spring-13, fall-12
 ```
+
+If the populations are defined by **county**, there are three populations.  By looking at multilocus genotypes at the county level, Kalamazoo contains most of the multilocus genotypes.
+
+
+```r
+#Setting up a population by county (3 populations/counties)
+setPop(ultimhier) <- ~County
+
+#Summary of multilocus genotypes by county
+ult.tab <- mlg.table(ultimhier)
+```
+
+![](Pythium_popgen_files/figure-html/county_pop-1.png)<!-- -->
+
+```r
+#write.table(poppr(ultimhier), sep = ",", file = "~/Documents/genotypebycounty.csv")
+#write.table(poppr(ult.tab, sep = ",", file = "~/Documents/MLGbycounty.csv")
+```
+
+Now, if the poplation is defined by **season**, there will be three populations as well, these refer to seasons across years sampled.
+
+
+```r
+setPop(ultimhier)<- ~Season
+ult.tab <- mlg.table(ultimhier)
+```
+
+![](Pythium_popgen_files/figure-html/3pop_data-1.png)<!-- -->
+
+```r
+#write.table(ult.tab, sep = ",", file = "~/Documents/frequencies3pop.csv")
+```
+
 
 

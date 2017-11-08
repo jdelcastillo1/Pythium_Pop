@@ -4,6 +4,9 @@
 
 
 
+```
+## Warning: package 'kableExtra' was built under R version 3.4.2
+```
 
 ##Data input
 
@@ -107,179 +110,684 @@ splitStrata(ultimhier) <- ~County/Season
 
 #Accessing strata data of the genind object
 ult.str <- strata(ultimhier)
-knitr::kable(ult.str, format = "markdown")
+knitr::kable(ult.str, format = "html") %>%
+  kableExtra::kable_styling() %>%
+  scroll_box(width = "500px", height = "200px")
 ```
 
+<div style="border: 1px solid #ddd; padding: 5px; overflow-y: scroll; height:200px; overflow-x: scroll; width:500px; "><table class="table" style="margin-left: auto; margin-right: auto;">
+<thead><tr>
+<th style="text-align:left;"> County </th>
+   <th style="text-align:left;"> Season </th>
+  </tr></thead>
+<tbody>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kent </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kent </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kent </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kent </td>
+   <td style="text-align:left;"> fall-11 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> wayne </td>
+   <td style="text-align:left;"> spring-13 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> wayne </td>
+   <td style="text-align:left;"> spring-13 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> spring-13 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> spring-13 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> spring-13 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> spring-13 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> spring-13 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> wayne </td>
+   <td style="text-align:left;"> fall-12 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> wayne </td>
+   <td style="text-align:left;"> fall-12 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> wayne </td>
+   <td style="text-align:left;"> fall-12 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> wayne </td>
+   <td style="text-align:left;"> fall-12 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> wayne </td>
+   <td style="text-align:left;"> fall-12 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> wayne </td>
+   <td style="text-align:left;"> fall-12 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> wayne </td>
+   <td style="text-align:left;"> fall-12 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> wayne </td>
+   <td style="text-align:left;"> fall-12 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> wayne </td>
+   <td style="text-align:left;"> fall-12 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> wayne </td>
+   <td style="text-align:left;"> fall-12 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> wayne </td>
+   <td style="text-align:left;"> fall-12 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> wayne </td>
+   <td style="text-align:left;"> fall-12 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> wayne </td>
+   <td style="text-align:left;"> fall-12 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> wayne </td>
+   <td style="text-align:left;"> fall-12 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> wayne </td>
+   <td style="text-align:left;"> fall-12 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> wayne </td>
+   <td style="text-align:left;"> fall-12 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> wayne </td>
+   <td style="text-align:left;"> fall-12 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> wayne </td>
+   <td style="text-align:left;"> fall-12 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-12 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-12 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-12 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-12 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-12 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-12 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-12 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-12 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-12 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-12 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-12 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-12 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-12 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-12 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-12 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-12 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-12 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-12 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-12 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-12 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-12 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-12 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-12 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-12 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-12 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-12 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-12 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-12 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-12 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-12 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-12 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-12 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-12 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-12 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-12 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-12 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-12 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-12 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-12 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-12 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-12 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-12 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-12 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-12 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-12 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-12 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> fall-12 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> spring-13 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> spring-13 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> spring-13 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> spring-13 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> spring-13 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> spring-13 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> spring-13 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> spring-13 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> spring-13 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> spring-13 </td>
+  </tr>
+<tr>
+<td style="text-align:left;"> kalamazoo </td>
+   <td style="text-align:left;"> spring-13 </td>
+  </tr>
+</tbody>
+</table></div>
 
-
-|County    |Season    |
-|:---------|:---------|
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kalamazoo |fall-11   |
-|kent      |fall-11   |
-|kent      |fall-11   |
-|kent      |fall-11   |
-|kent      |fall-11   |
-|wayne     |spring-13 |
-|wayne     |spring-13 |
-|kalamazoo |spring-13 |
-|kalamazoo |spring-13 |
-|kalamazoo |spring-13 |
-|kalamazoo |spring-13 |
-|kalamazoo |spring-13 |
-|wayne     |fall-12   |
-|wayne     |fall-12   |
-|wayne     |fall-12   |
-|wayne     |fall-12   |
-|wayne     |fall-12   |
-|wayne     |fall-12   |
-|wayne     |fall-12   |
-|wayne     |fall-12   |
-|wayne     |fall-12   |
-|wayne     |fall-12   |
-|wayne     |fall-12   |
-|wayne     |fall-12   |
-|wayne     |fall-12   |
-|wayne     |fall-12   |
-|wayne     |fall-12   |
-|wayne     |fall-12   |
-|wayne     |fall-12   |
-|wayne     |fall-12   |
-|kalamazoo |fall-12   |
-|kalamazoo |fall-12   |
-|kalamazoo |fall-12   |
-|kalamazoo |fall-12   |
-|kalamazoo |fall-12   |
-|kalamazoo |fall-12   |
-|kalamazoo |fall-12   |
-|kalamazoo |fall-12   |
-|kalamazoo |fall-12   |
-|kalamazoo |fall-12   |
-|kalamazoo |fall-12   |
-|kalamazoo |fall-12   |
-|kalamazoo |fall-12   |
-|kalamazoo |fall-12   |
-|kalamazoo |fall-12   |
-|kalamazoo |fall-12   |
-|kalamazoo |fall-12   |
-|kalamazoo |fall-12   |
-|kalamazoo |fall-12   |
-|kalamazoo |fall-12   |
-|kalamazoo |fall-12   |
-|kalamazoo |fall-12   |
-|kalamazoo |fall-12   |
-|kalamazoo |fall-12   |
-|kalamazoo |fall-12   |
-|kalamazoo |fall-12   |
-|kalamazoo |fall-12   |
-|kalamazoo |fall-12   |
-|kalamazoo |fall-12   |
-|kalamazoo |fall-12   |
-|kalamazoo |fall-12   |
-|kalamazoo |fall-12   |
-|kalamazoo |fall-12   |
-|kalamazoo |fall-12   |
-|kalamazoo |fall-12   |
-|kalamazoo |fall-12   |
-|kalamazoo |fall-12   |
-|kalamazoo |fall-12   |
-|kalamazoo |fall-12   |
-|kalamazoo |fall-12   |
-|kalamazoo |fall-12   |
-|kalamazoo |fall-12   |
-|kalamazoo |fall-12   |
-|kalamazoo |fall-12   |
-|kalamazoo |fall-12   |
-|kalamazoo |fall-12   |
-|kalamazoo |fall-12   |
-|kalamazoo |spring-13 |
-|kalamazoo |spring-13 |
-|kalamazoo |spring-13 |
-|kalamazoo |spring-13 |
-|kalamazoo |spring-13 |
-|kalamazoo |spring-13 |
-|kalamazoo |spring-13 |
-|kalamazoo |spring-13 |
-|kalamazoo |spring-13 |
-|kalamazoo |spring-13 |
-|kalamazoo |spring-13 |
 
 Looking at multilocus genotypes at the county level.  Kalamazoo contains most of the multilocus genotypes.
 

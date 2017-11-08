@@ -22,7 +22,7 @@ sapply(pkg, require, character.only = TRUE)
 
 
 ```{r libraries, echo=FALSE, message=FALSE, results='hide'}
-packages <- c("ggplot2","RColorBrewer","poppr", "dplyr", "knitr")
+packages <- c("ggplot2","RColorBrewer","poppr", "dplyr", "knitr","kableExtra")
 ipak(packages)
 ```
 
@@ -83,8 +83,11 @@ splitStrata(ultimhier) <- ~County/Season
 
 #Accessing strata data of the genind object
 ult.str <- strata(ultimhier)
-knitr::kable(ult.str, format = "markdown")
+knitr::kable(ult.str, format = "html") %>%
+  kableExtra::kable_styling() %>%
+  scroll_box(width = "500px", height = "200px")
 ```
+
 
 Looking at multilocus genotypes at the county level.  Kalamazoo contains most of the multilocus genotypes.
 ```{r county_pop}

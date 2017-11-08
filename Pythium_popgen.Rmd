@@ -1,0 +1,110 @@
+---
+title: "Pythium populations in Michigan greenhouses"
+output:
+  html_document:
+    df_print: paged
+    keep_md: yes
+editor_options:
+  chunk_output_type: console
+---
+
+```{r custom_functions, echo=FALSE, message=FALSE}
+# ipak function: install and load multiple R packages.
+# check to see if packages are installed. Install them if they are not, then load them into the R session.
+# Source: https://gist.github.com/stevenworthington/3178163
+ipak <- function(pkg){
+new.pkg <- pkg[!(pkg %in% installed.packages()[,"Package"])]
+if (length(new.pkg)) 
+    install.packages(new.pkg, dependencies = TRUE)
+sapply(pkg, require, character.only = TRUE)
+}
+```
+
+
+```{r libraries, echo=FALSE, message=FALSE, results='hide'}
+packages <- c("ggplot2","RColorBrewer","poppr", "dplyr")
+ipak(packages)
+```
+
+##Data input
+```{r}
+#Reading genealex object
+ultimhier <- read.genalex("ult3pop.csv")
+
+#recode populations
+ultimhier@pop <- recode(ultimhier@pop, "d_ff"="wayne_fall-12", "d_ss"="wayne_spring-13", 
+       "g_f"="kent_fall-11", "k_f"="kalamazoo_fall-11", "k_ff"="kalamazoo_fall-12",
+       "k_ss"="kalamazoo_spring-13")
+```
+
+
+##Genotype accumulation curve
+The aim is to determine the if the SSRs are enough to describe the genotypes in the population.
+
+```{r locus_genotype}
+#Locus table
+locus_table(ultimhier)
+
+#genotype accumulation curve
+gac <- genotype_curve(ultimhier, sample = 1000, quiet = TRUE)
+```
+
+##Genotype diversity
+Basic summary of Pythium population data and definition of multilocus genotypes.
+```{r summary}
+ult_table <- poppr(ultimhier)
+knitr::kable(ult_table[,-13], format="markdown", digits = 3,
+             caption=" Summary statistics of P. ultimum populations")
+```
+
+Generating a table for the multilocus genotypes accors populations
+```{r mlgs}
+#Matrix indicating mulitlocus genotypes (MLGs) by population
+ult.tab <- mlg.table(ultimhier)
+
+#Associating MLGs to individual names
+mlg.id <- mlg.id(ultimhier)
+#write.table(mlg.id, sep = ",", file = "~/Documents/mlgID.csv")
+```
+
+
+##Hierarchy and strata by factors
+
+First, the strata will be recoded to facilitate interpretation of the data.  Then, the strata will be divided to generated a nested 
+hierarchy.  The idea is that season is nested within county.
+```{r}
+#recode strata
+ultimhier@strata$Pop <- recode(ultimhier@strata$Pop, "d_ff"="wayne_fall-12", "d_ss"="wayne_spring-13", 
+       "g_f"="kent_fall-11", "k_f"="kalamazoo_fall-11", "k_ff"="kalamazoo_fall-12",
+       "k_ss"="kalamazoo_spring-13")
+
+#hierarchy splithierarchy was deprecated, so command is updated to last version poppr
+splitStrata(ultimhier) <- ~County/Season
+
+#Accessing strata data of the genind object
+strata(ultimhier)
+```
+
+Looking at multilocus genotypes at the county level.  Kalamazoo contains most of the multilocus genotypes.
+```{r county_pop}
+#Setting up a population by county (3 populations/counties)
+setPop(ultimhier) <- ~County
+
+#Summary of multilocus genotypes by county
+ult.tab <- mlg.table(ultimhier)
+
+#write.table(poppr(ultimhier), sep = ",", file = "~/Documents/genotypebycounty.csv")
+#write.table(poppr(ult.tab, sep = ",", file = "~/Documents/MLGbycounty.csv")
+```
+
+Using strata, the populations could be defined using the strata.  A hierarchy using `county/season` or just by `season` or `county` like in the previous chunck.
+
+```{r County_season}
+setPop(ultimhier) <- ~County/Season
+ultimhier
+
+setPop(ultimhier)<- ~Season
+ultimhier
+```
+
+

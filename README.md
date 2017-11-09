@@ -9,7 +9,7 @@ Citation
 Contents
 ========
 1. [Locus stats, MLGs and Hierarchy](analysis/Pythium_popgen.md)
-2. [Clone correction]()
+2. [Clone correction](analysis/Clone_correction.md)
 3. [Minimum Spanning Network]()
 3. [DAPC]()
 4. [Population differantiation]()

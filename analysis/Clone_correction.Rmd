@@ -1,0 +1,90 @@
+---
+title: "Clone correction"
+author: "Alejandro Rojas"
+output:
+  html_document:
+    keep_md: yes
+editor_options:
+  chunk_output_type: console
+---
+
+```{r custom_functions, echo=FALSE, message=FALSE, results='hide', warning=FALSE}
+# ipak function: install and load multiple R packages.
+# check to see if packages are installed. Install them if they are not, then load them into the R session.
+# Source: https://gist.github.com/stevenworthington/3178163
+ipak <- function(pkg){
+new.pkg <- pkg[!(pkg %in% installed.packages()[,"Package"])]
+if (length(new.pkg)) 
+    install.packages(new.pkg, dependencies = TRUE)
+sapply(pkg, require, character.only = TRUE)
+}
+
+packages <- c("ggplot2","RColorBrewer","poppr", "dplyr", "knitr","kableExtra")
+ipak(packages)
+```
+
+
+```{r Loading_data, echo=FALSE, message=FALSE}
+load("../data/Pyult.rda")
+```
+
+##Clone correction
+```{r clones}
+#Clone correction
+mcc_TY <- clonecorrect(ultimhier, strata = ~County/Season, keep = c(1,2))
+mcc_TY
+
+#Locus table before and after clone correction
+setPop(ultimhier) <- ~County/Season
+cc <- locus_table(mcc_TY, info = FALSE)
+mp <- locus_table(ultimhier, info = FALSE)
+
+#Locus Differences after clone correction
+locus_diff <- mp - cc
+barplot(locus_diff[, "1-D"], ylab = "Change in Simpson's Index", xlab = "Locus",
+        main = "Comparison of clone-corrected vs. uncorrected data")
+
+```
+
+
+Clone correction by population
+------------------------------
+
+```{r clone_correction_pop, fig.width=10}
+plot_simp_diff <- function(pop_name, clone_corrected, un_corrected){
+  # Step 1: calculate diversity for clone-corrected data
+  cc <- locus_table(clone_corrected, pop = pop_name, info = FALSE)
+  # Step 2: calculate diversity for uncorrected data
+  uc <- locus_table(un_corrected, pop = pop_name, info = FALSE)
+  # Step 3: Take the difference
+  res <- uc - cc
+  # Step 4: Plot Simpson's index.
+  barplot(res[, "1-D"], main = pop_name, ylab = "Change in Simpson's Index", xlab = "Locus")
+}
+
+par(mfrow = c(2, 3)) # Set up the graphics to have two rows and three columns
+
+for (i in popNames(ultimhier)){
+  plot_simp_diff(i, mcc_TY, ultimhier)
+}
+```
+
+Clone correction by season
+--------------------------
+
+```{r clone_correc_season}
+#clone correction by season
+mcc_TS <- clonecorrect(ultimhier, strata = ~Season, keep = 1:1)
+mcc_TS
+
+#Compare before and after correction
+#First Setting uncorrected pop to season
+setPop(ultimhier) <- ~Season
+plot_simp_diff("all",mcc_TS,ultimhier)
+
+#harmonic mean to test the effective population size 
+locus_table(ultimhier, pop = "fall-11")
+locus_table(ultimhier, pop = "fall-12")
+locus_table(ultimhier, pop = "spring-13")
+```
+

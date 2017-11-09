@@ -2,7 +2,6 @@
 title: "Pythium populations in Michigan greenhouses"
 output:
   html_document:
-    df_print: paged
     keep_md: yes
 editor_options:
   chunk_output_type: console

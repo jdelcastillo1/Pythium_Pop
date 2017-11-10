@@ -27,7 +27,7 @@ ipak(packages)
 load("../data/Pyult.rda")
 ```
 
-##Clone correction
+##Clone correction analysis
 ```{r clones}
 #Clone correction
 mcc_TY <- clonecorrect(ultimhier, strata = ~County/Season, keep = c(1,2))
@@ -98,9 +98,12 @@ poppr(ultimhier)
 miss <- info_table(ultimhier, plot = TRUE, scale = FALSE)
 ```
 
-All loci, but Py62 have missing data. 
+All loci, but Py62 have missing data. There are different options to follow, remove 
+loci with missing data or removing by genotype.  The first one is not possible since 
+it will remove 5 out of 6 loci included in this study.  However removing by genotype 
+is more likely, and it will only consider genotypes with alleles.
 
-```{r}
+```{r missing_data2}
 #Missing data and removing loci
 #Removes 5 loci
 nanloc <- missingno(ultimhier, "loci")
@@ -114,16 +117,50 @@ nanind <- missingno(ultimhier, "geno")
 nanind <- missingno(ultimhier, "geno", cutoff = 2/nLoc(ultimhier))
 ```
 
+A third option is to replace the missing data by `0`, and maintaining the whole dataset.
 
-```{r replace_missing_data, eval=FALSE}
-#Replacing missing data here I can see NA for missing
-nan1 <- popsub(ultimhier, 1, drop = TRUE)
-nan1[loc = "L1"]@tab
-nan1 <- popsub(ultimhier, 2, drop = TRUE)
-nan1[loc = "L1"]@tab
-nan1 <- popsub(ultimhier, 2, drop = TRUE)
-nan1[loc = "L5"]@tab
-nan1 <- popsub(ultimhier, 4, drop = TRUE)
-nan1[loc = "L1"]@tab
+```{r replace_missing_data}
+#Missing data can be replace by 0
+#Replacing mising data with 0
+nanzero <- missingno(ultimhier, "zero")
+locus_table(nanzero)
+info_table(nanzero)
+```
+
+Genotype diversity with missing data removed
+
+```{r missing_data3, fig.width=10}
+#Genotype diversity for the hierarchy by season with data missing deleted
+poppr(ultimhier)[,-13]
+poppr(nanind)[,-13]
+
+#Table of pop complete
+mlg.table(ultimhier)
+
+#Table of pop missing data
+ult.tab <- mlg.table(nanind)
+
+#write.table(ult.tab, sep = ",", file = "~/Documents/genotypewithtoutmissing.csv")
+```
+
+Replacing data with mean allele frequency
+
+```{r, eval=FALSE}
+#replacing missin data with mean allele frequency ask
+#hardy weinberg equilibrium
+if (!require("genetics")){ 
+  install.packages("genetics", repos = "http://cran.at.r-project.org")
+  require("genetics")}
+nanhwe.full <- hw.test(ultimhier)
+warnings ()
+nanhwe.mat  <- HWE.test.genind(ultimhier, res.type = "matrix")
+nanhwe.full$Py62$P1
+nanhwe.mat
+#hardy weinberg plot pink means all the pop at certain locus where there is no
+#hw equilibrium
+alpha  <- 0.05
+newmat <- nanhwe.mat
+newmat[newmat > alpha] <- 1
+
 ```
 

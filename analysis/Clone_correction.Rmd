@@ -1,6 +1,5 @@
 ---
 title: "Clone correction"
-author: "Alejandro Rojas"
 output:
   html_document:
     keep_md: yes
@@ -81,10 +80,50 @@ mcc_TS
 #First Setting uncorrected pop to season
 setPop(ultimhier) <- ~Season
 plot_simp_diff("all",mcc_TS,ultimhier)
+```
 
-#harmonic mean to test the effective population size 
-locus_table(ultimhier, pop = "fall-11")
-locus_table(ultimhier, pop = "fall-12")
-locus_table(ultimhier, pop = "spring-13")
+Missing data
+-------------
+```{r missing_data}
+#Missing data looking at Season
+setPop(ultimhier)<- ~Season 
+
+#ultimhier
+info_table(ultimhier, plot = TRUE)
+
+#Genotype diversity for the hierarchy by season
+poppr(ultimhier)
+
+#Plotting missing data
+miss <- info_table(ultimhier, plot = TRUE, scale = FALSE)
+```
+
+All loci, but Py62 have missing data. 
+
+```{r}
+#Missing data and removing loci
+#Removes 5 loci
+nanloc <- missingno(ultimhier, "loci")
+
+#removing individuals
+#Removes 45 individuals using default threshold 5%
+nanind <- missingno(ultimhier, "geno")
+
+#remove individuals with 2 missing loci
+#Removes 15 individuals with 2 missing loci (2/nLoc) (33%)
+nanind <- missingno(ultimhier, "geno", cutoff = 2/nLoc(ultimhier))
+```
+
+
+```{r replace_missing_data, eval=FALSE}
+#Replacing missing data here I can see NA for missing
+nan1 <- popsub(ultimhier, 1, drop = TRUE)
+nan1[loc = "L1"]@tab
+nan1 <- popsub(ultimhier, 2, drop = TRUE)
+nan1[loc = "L1"]@tab
+nan1 <- popsub(ultimhier, 2, drop = TRUE)
+nan1[loc = "L5"]@tab
+nan1 <- popsub(ultimhier, 4, drop = TRUE)
+nan1[loc = "L1"]@tab
 ```
 

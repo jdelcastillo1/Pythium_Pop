@@ -1,5 +1,4 @@
 # Clone correction
-Alejandro Rojas  
 
 
 
@@ -106,76 +105,119 @@ plot_simp_diff("all",mcc_TS,ultimhier)
 
 ![](Clone_correction_files/figure-html/clone_correc_season-1.png)<!-- -->
 
+Missing data
+-------------
+
 ```r
-#harmonic mean to test the effective population size 
-locus_table(ultimhier, pop = "fall-11")
+#Missing data looking at Season
+setPop(ultimhier)<- ~Season 
+
+#ultimhier
+info_table(ultimhier, plot = TRUE)
+```
+
+![](Clone_correction_files/figure-html/missing_data-1.png)<!-- -->
+
+```
+##            Locus
+## Population   Py28 Py62  Py69  Py30  Py55  Py57  Mean
+##   fall-11   0.084    . 0.145 0.060 0.229 0.072 0.098
+##   spring-13 0.278    . 0.056 0.111 0.278 0.111 0.139
+##   fall-12   0.015    . 0.015 0.031 0.015 0.031 0.018
+##   Total     0.078    . 0.084 0.054 0.151 0.060 0.071
+```
+
+```r
+#Genotype diversity for the hierarchy by season
+poppr(ultimhier)
+```
+
+```
+##         Pop   N MLG eMLG   SE    H    G lambda   E.5  Hexp   Ia rbarD
+## 1   fall-11  83  40 12.2 1.75 3.09 11.3  0.912 0.489 0.529 1.26 0.286
+## 2 spring-13  18  14 14.0 0.00 2.58 12.5  0.920 0.937 0.497 1.32 0.280
+## 3   fall-12  65  22 11.1 1.48 2.71 10.5  0.905 0.680 0.511 1.25 0.260
+## 4     Total 166  65 13.8 1.66 3.63 21.6  0.954 0.561 0.550 1.19 0.256
+##        File
+## 1 ultimhier
+## 2 ultimhier
+## 3 ultimhier
+## 4 ultimhier
+```
+
+```r
+#Plotting missing data
+miss <- info_table(ultimhier, plot = TRUE, scale = FALSE)
+```
+
+![](Clone_correction_files/figure-html/missing_data-2.png)<!-- -->
+
+All loci, but Py62 have missing data. 
+
+
+```r
+#Missing data and removing loci
+#Removes 5 loci
+nanloc <- missingno(ultimhier, "loci")
 ```
 
 ```
 ## 
-## allele = Number of observed alleles
-## 1-D = Simpson index
-## Hexp = Nei's 1978 gene diversity
-## ------------------------------------------
-```
-
-```
-##       summary
-## locus  allele  1-D Hexp Evenness
-##   Py28   6.00 0.74 0.75     0.80
-##   Py62   2.00 0.38 0.38     0.80
-##   Py69   2.00 0.49 0.50     0.99
-##   Py30   3.00 0.59 0.59     0.85
-##   Py55   4.00 0.74 0.74     0.97
-##   Py57   3.00 0.21 0.21     0.56
-##   mean   3.33 0.53 0.53     0.83
+## Found 313 missing values.
+## 
+## 5 loci contained missing values greater than 5%
+## 
+## Removing 5 loci: Py28, Py69, Py30, Py55, Py57
 ```
 
 ```r
-locus_table(ultimhier, pop = "fall-12")
+#removing individuals
+#Removes 45 individuals using default threshold 5%
+nanind <- missingno(ultimhier, "geno")
 ```
 
 ```
 ## 
-## allele = Number of observed alleles
-## 1-D = Simpson index
-## Hexp = Nei's 1978 gene diversity
-## ------------------------------------------
-```
-
-```
-##       summary
-## locus  allele  1-D Hexp Evenness
-##   Py28   6.00 0.63 0.64     0.70
-##   Py62   3.00 0.33 0.34     0.60
-##   Py69   2.00 0.49 0.49     0.97
-##   Py30   3.00 0.48 0.49     0.71
-##   Py55   5.00 0.65 0.66     0.71
-##   Py57   2.00 0.45 0.46     0.92
-##   mean   3.50 0.51 0.51     0.77
+## Found 313 missing values.
+## 
+## 42 genotypes contained missing values greater than 5%
+## 
+## Removing 42 genotypes: 1.2 A, 1.3 A, 1.3 B, 1.9 A, 1.22 C, 1.44 A,
+## 1.49 C, 1.55 A, 1.56 A, 1.58 B, 1.58 C, 1.59 A, 1.61 C, 2.4 B, 2.5
+## A , 2.5 C, 2.8 C, 2.14 A , 2.14 C, 2.17 A, 2.30 A, 2.30 B, 2.33 A
+## , 2.45 A, 2.45 C, 2.54 C, 4.21 B, 12.3C, 15.1A, 16.3 C, 19.5B,
+## 19.50B, 23.5B, 29.10A, 30.11C, 30.16A, 30.18B, 40.19B, 41.6C,
+## 41.7B, 42.27B, 42.27C
 ```
 
 ```r
-locus_table(ultimhier, pop = "spring-13")
+#remove individuals with 2 missing loci
+#Removes 15 individuals with 2 missing loci (2/nLoc) (33%)
+nanind <- missingno(ultimhier, "geno", cutoff = 2/nLoc(ultimhier))
 ```
 
 ```
 ## 
-## allele = Number of observed alleles
-## 1-D = Simpson index
-## Hexp = Nei's 1978 gene diversity
-## ------------------------------------------
+## Found 313 missing values.
+## 
+## 15 genotypes contained missing values greater than 33.3333333333333%
+## 
+## Removing 15 genotypes: 1.2 A, 1.3 B, 1.9 A, 1.55 A, 1.58 B, 1.58
+## C, 1.59 A, 1.61 C, 2.14 C, 2.17 A, 2.30 A, 2.45 A, 19.5B, 30.18B,
+## 42.27C
 ```
 
-```
-##       summary
-## locus  allele  1-D Hexp Evenness
-##   Py28   4.00 0.60 0.62     0.73
-##   Py62   2.00 0.31 0.32     0.72
-##   Py69   2.00 0.39 0.40     0.81
-##   Py30   3.00 0.40 0.42     0.63
-##   Py55   4.00 0.69 0.72     0.87
-##   Py57   2.00 0.48 0.50     0.97
-##   mean   2.83 0.48 0.50     0.79
+
+
+```r
+#Replacing missing data here I can see NA for missing
+nan1 <- popsub(ultimhier, 1, drop = TRUE)
+nan1[loc = "L1"]@tab
+nan1 <- popsub(ultimhier, 2, drop = TRUE)
+nan1[loc = "L1"]@tab
+nan1 <- popsub(ultimhier, 2, drop = TRUE)
+nan1[loc = "L5"]@tab
+nan1 <- popsub(ultimhier, 4, drop = TRUE)
+nan1[loc = "L1"]@tab
 ```
 

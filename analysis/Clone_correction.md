@@ -1,4 +1,11 @@
-# Clone correction
+---
+title: "Clone correction, linkage-desiquilibrium and PCA"
+output:
+  html_document:
+    keep_md: yes
+editor_options:
+  chunk_output_type: console
+---
 
 
 
@@ -61,14 +68,14 @@ plot_simp_diff <- function(pop_name, clone_corrected, un_corrected){
   barplot(res[, "1-D"], main = pop_name, ylab = "Change in Simpson's Index", xlab = "Locus")
 }
 
-par(mfrow = c(2, 3)) # Set up the graphics to have two rows and three columns
+#par(mfrow = c(2, 3)) # Set up the graphics to have two rows and three columns
 
 for (i in popNames(ultimhier)){
   plot_simp_diff(i, mcc_TY, ultimhier)
 }
 ```
 
-![](Clone_correction_files/figure-html/clone_correction_pop-1.png)<!-- -->
+![](Clone_correction_files/figure-html/clone_correction_pop-1.png)<!-- -->![](Clone_correction_files/figure-html/clone_correction_pop-2.png)<!-- -->![](Clone_correction_files/figure-html/clone_correction_pop-3.png)<!-- -->![](Clone_correction_files/figure-html/clone_correction_pop-4.png)<!-- -->![](Clone_correction_files/figure-html/clone_correction_pop-5.png)<!-- -->![](Clone_correction_files/figure-html/clone_correction_pop-6.png)<!-- -->
 
 Clone correction by season
 --------------------------
@@ -345,24 +352,216 @@ ult.tab <- mlg.table(nanind)
 #write.table(ult.tab, sep = ",", file = "~/Documents/genotypewithtoutmissing.csv")
 ```
 
-Replacing data with mean allele frequency
+Hardy-Weinberg equilibrium at each loci
+_______________________________________
 
 
 ```r
 #replacing missin data with mean allele frequency ask
 #hardy weinberg equilibrium
-if (!require("genetics")){ 
-  install.packages("genetics", repos = "http://cran.at.r-project.org")
-  require("genetics")}
-nanhwe.full <- hw.test(ultimhier)
-warnings ()
-nanhwe.mat  <- HWE.test.genind(ultimhier, res.type = "matrix")
-nanhwe.full$Py62$P1
-nanhwe.mat
-#hardy weinberg plot pink means all the pop at certain locus where there is no
-#hw equilibrium
-alpha  <- 0.05
+library(pegas)
+nanhwe.full <- pegas::hw.test(ultimhier)
+kable(nanhwe.full, format = "markdown")
+
+#By population
+
+nanhwe.pop  <- setPop(ultimhier, ~Season) %>% seppop() %>% lapply(pegas::hw.test, B=0)
+nanhwe.mat <- sapply(nanhwe.pop, "[", i = TRUE, j = 3)
+
+alpha <- 0.05
 newmat <- nanhwe.mat
 newmat[newmat > alpha] <- 1
+lattice::levelplot(t(newmat))
 ```
+
+
+Genetic richness
+_________________
+
+```r
+library("vegan")
+```
+
+```
+## Loading required package: permute
+```
+
+```
+## Loading required package: lattice
+```
+
+```
+## This is vegan 2.4-5
+```
+
+```r
+mon.tab <- mlg.table(ultimhier, plot = FALSE)
+min_sample <- min(rowSums(mon.tab))
+rarecurve(mon.tab, sample = min_sample, xlab = "Sample Size", ylab = "Expected MLGs")
+title("Rarefaction of P. ultimum in 4 seasons")
+```
+
+![](Clone_correction_files/figure-html/unnamed-chunk-2-1.png)<!-- -->
+
+```r
+mon.tab <- mlg.table(ultimhier)
+```
+
+![](Clone_correction_files/figure-html/unnamed-chunk-2-2.png)<!-- -->
+
+
+Linkage desiquilibrium
+______________________
+
+
+```r
+#Linkage desequilibrium
+ultimhier %>% setPop(~Season) %>% poppr(sample= 999, total = FALSE)
+```
+
+![](Clone_correction_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
+
+```
+##         Pop  N MLG eMLG   SE    H    G lambda   E.5  Hexp   Ia  p.Ia rbarD
+## 1   fall-11 83  40 12.2 1.75 3.09 11.3  0.912 0.489 0.529 1.26 0.001 0.286
+## 2 spring-13 18  14 14.0 0.00 2.58 12.5  0.920 0.937 0.497 1.32 0.001 0.280
+## 3   fall-12 65  22 11.1 1.48 2.71 10.5  0.905 0.680 0.511 1.25 0.001 0.260
+##    p.rD File
+## 1 0.001    .
+## 2 0.001    .
+## 3 0.001    .
+```
+
+```r
+#Clone correcting by season and year
+setPop(ultimhier) <- ~County/Season
+ult.cc <- clonecorrect(ultimhier, ~County/Season, keep = 1:2)
+
+ult.cc %>% setPop(~Season) %>% poppr(sample= 999, total = FALSE)
+```
+
+![](Clone_correction_files/figure-html/unnamed-chunk-3-2.png)<!-- -->
+
+```
+##         Pop  N MLG eMLG       SE    H    G lambda   E.5  Hexp    Ia  p.Ia
+## 1   fall-11 40  40 15.0 1.80e-06 3.69 40.0  0.975 1.000 0.549 0.772 0.001
+## 2 spring-13 15  14 14.0 0.00e+00 2.62 13.2  0.924 0.965 0.516 1.048 0.001
+## 3   fall-12 24  22 14.2 6.62e-01 3.06 20.6  0.951 0.960 0.537 0.916 0.001
+##   rbarD  p.rD File
+## 1 0.173 0.001    .
+## 2 0.221 0.001    .
+## 3 0.189 0.001    .
+```
+
+
+PCA
+-------
+
+
+```r
+ult.2 <- setPop(ultimhier, ~County)
+Py.x <- scaleGen(ult.2, NA.method="mean", scale=FALSE)
+#Py.pca <- dudi.pca(Py.x, center = FALSE, scale = FALSE)
+Py.pca <- dudi.pca(Py.x, center = FALSE, scale = FALSE, nf = 3, scannf = FALSE)
+Py.pca
+```
+
+```
+## Duality diagramm
+## class: pca dudi
+## $call: dudi.pca(df = Py.x, center = FALSE, scale = FALSE, scannf = FALSE, 
+##     nf = 3)
+## 
+## $nf: 3 axis-components saved
+## $rank: 17
+## eigen values: 0.6065 0.4149 0.198 0.1563 0.09515 ...
+##   vector length mode    content       
+## 1 $cw    23     numeric column weights
+## 2 $lw    166    numeric row weights   
+## 3 $eig   17     numeric eigen values  
+## 
+##   data.frame nrow ncol content             
+## 1 $tab       166  23   modified array      
+## 2 $li        166  3    row coordinates     
+## 3 $l1        166  3    row normed scores   
+## 4 $co        23   3    column coordinates  
+## 5 $c1        23   3    column normed scores
+## other elements: cent norm
+```
+
+```r
+s.label(Py.pca$li)
+```
+
+![](Clone_correction_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
+
+```r
+s.class(Py.pca$li, fac=pop(ult.2), col = funky(10))
+```
+
+![](Clone_correction_files/figure-html/unnamed-chunk-4-2.png)<!-- -->
+
+```r
+eig.perc <- 100*Py.pca$eig/sum(Py.pca$eig)
+eig.perc
+```
+
+```
+##  [1] 36.55582681 25.00410996 11.93576669  9.42267489  5.73516848
+##  [6]  3.61080194  1.66136439  1.33446702  1.20858134  0.96440471
+## [11]  0.87222635  0.72373819  0.45520405  0.29052296  0.12978685
+## [16]  0.09343280  0.00192257
+```
+
+```r
+library(factoextra)
+```
+
+```
+## Welcome! Related Books: `Practical Guide To Cluster Analysis in R` at https://goo.gl/13EFCZ
+```
+
+```r
+fviz_eig(Py.pca)
+```
+
+![](Clone_correction_files/figure-html/unnamed-chunk-4-3.png)<!-- -->
+
+```r
+fviz_pca_var(Py.pca,
+  col.var = "contrib", # Color by contributions to the PC
+  gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
+  repel = TRUE     # Avoid text overlapping
+)
+```
+
+![](Clone_correction_files/figure-html/unnamed-chunk-4-4.png)<!-- -->
+
+```r
+groups.season <- setPop(ult.2, ~Season) %>% pop()
+groups.county <- setPop(ult.2, ~County) %>% pop()
+
+colores.county <- c("#636363", "#bdbdbd", "#f0f0f0")
+fviz_pca_ind(Py.pca,
+             col.ind = groups.season, # color by groups
+             #palette = colores.county,
+             addEllipses = TRUE, # Concentration ellipses
+             #ellipse.type = "confidence",
+             legend.title = "Groups"
+             )
+```
+
+![](Clone_correction_files/figure-html/unnamed-chunk-4-5.png)<!-- -->
+
+```r
+fviz_pca_ind(Py.pca,
+             col.ind = groups.county, # color by groups
+             #palette = colores.county,
+             addEllipses = TRUE, # Concentration ellipses
+             #ellipse.type = "confidence",
+             legend.title = "Groups"
+             )
+```
+
+![](Clone_correction_files/figure-html/unnamed-chunk-4-6.png)<!-- -->
 

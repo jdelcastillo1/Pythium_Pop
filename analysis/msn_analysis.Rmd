@@ -1,0 +1,30 @@
+---
+title: "Minimum Spanning Network"
+output:
+  html_document:
+    keep_md: yes
+editor_options:
+  chunk_output_type: console
+---
+
+```{r custom_functions, echo=FALSE, message=FALSE, results='hide', warning=FALSE}
+# ipak function: install and load multiple R packages.
+# check to see if packages are installed. Install them if they are not, then load them into the R session.
+# Source: https://gist.github.com/stevenworthington/3178163
+ipak <- function(pkg){
+new.pkg <- pkg[!(pkg %in% installed.packages()[,"Package"])]
+if (length(new.pkg)) 
+    install.packages(new.pkg, dependencies = TRUE)
+sapply(pkg, require, character.only = TRUE)
+}
+
+packages <- c("ggplot2","RColorBrewer","poppr", "dplyr", "knitr","kableExtra")
+ipak(packages)
+```
+
+
+```{r Loading_data, echo=FALSE, message=FALSE}
+load(file.path("..", "data", "Pyult.rda"))
+ult.cc <- clonecorrect(ultimhier, ~County/Season, keep = 1:2)
+```
+

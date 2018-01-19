@@ -1,5 +1,5 @@
 ---
-title: "Clone correction, linkage-desiquilibrium and PCA"
+title: "Clone correction and linkage-desiquilibrium"
 output:
   html_document:
     keep_md: yes
@@ -146,7 +146,7 @@ ult.tab <- mlg.table(nanind)
 Hardy-Weinberg equilibrium at each loci
 _______________________________________
 
-```{r, eval=FALSE}
+```{r}
 #replacing missin data with mean allele frequency ask
 #hardy weinberg equilibrium
 library(pegas)
@@ -155,7 +155,7 @@ kable(nanhwe.full, format = "markdown")
 
 #By population
 
-nanhwe.pop  <- setPop(ultimhier, ~Season) %>% seppop() %>% lapply(pegas::hw.test, B=0)
+nanhwe.pop  <- setPop(ultimhier, ~Season) %>% seppop() %>% lapply(pegas::hw.test, B=1000)
 nanhwe.mat <- sapply(nanhwe.pop, "[", i = TRUE, j = 3)
 
 alpha <- 0.05
@@ -189,53 +189,6 @@ setPop(ultimhier) <- ~County/Season
 ult.cc <- clonecorrect(ultimhier, ~County/Season, keep = 1:2)
 
 ult.cc %>% setPop(~Season) %>% poppr(sample= 999, total = FALSE)
-
-```
-
-
-PCA
--------
-
-```{r}
-
-ult.2 <- setPop(ultimhier, ~County)
-Py.x <- scaleGen(ult.2, NA.method="mean", scale=FALSE)
-#Py.pca <- dudi.pca(Py.x, center = FALSE, scale = FALSE)
-Py.pca <- dudi.pca(Py.x, center = FALSE, scale = FALSE, nf = 3, scannf = FALSE)
-Py.pca
-s.label(Py.pca$li)
-s.class(Py.pca$li, fac=pop(ult.2), col = funky(10))
-eig.perc <- 100*Py.pca$eig/sum(Py.pca$eig)
-eig.perc
-
-library(factoextra)
-fviz_eig(Py.pca)
-
-fviz_pca_var(Py.pca,
-  col.var = "contrib", # Color by contributions to the PC
-  gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
-  repel = TRUE     # Avoid text overlapping
-)
-
-groups.season <- setPop(ult.2, ~Season) %>% pop()
-groups.county <- setPop(ult.2, ~County) %>% pop()
-
-colores.county <- c("#636363", "#bdbdbd", "#f0f0f0")
-fviz_pca_ind(Py.pca,
-             col.ind = groups.season, # color by groups
-             #palette = colores.county,
-             addEllipses = TRUE, # Concentration ellipses
-             #ellipse.type = "confidence",
-             legend.title = "Groups"
-             )
-
-fviz_pca_ind(Py.pca,
-             col.ind = groups.county, # color by groups
-             #palette = colores.county,
-             addEllipses = TRUE, # Concentration ellipses
-             #ellipse.type = "confidence",
-             legend.title = "Groups"
-             )
 
 ```
 

@@ -7,52 +7,69 @@ editor_options:
   chunk_output_type: console
 ---
 
-```{r custom_functions, echo=FALSE, message=FALSE, results='hide', warning=FALSE}
-# ipak function: install and load multiple R packages.
-# check to see if packages are installed. Install them if they are not, then load them into the R session.
-# Source: https://gist.github.com/stevenworthington/3178163
-ipak <- function(pkg){
-new.pkg <- pkg[!(pkg %in% installed.packages()[,"Package"])]
-if (length(new.pkg)) 
-    install.packages(new.pkg, dependencies = TRUE)
-sapply(pkg, require, character.only = TRUE)
-}
-
-packages <- c("ggplot2","RColorBrewer","poppr", "dplyr", "knitr","kableExtra", "mmod")
-ipak(packages)
-```
 
 
-```{r Loading_data, echo=FALSE, message=FALSE}
-load(file.path("..", "data", "Pyult.rda"))
 
-ultimhier.mn <- missingno(ultimhier, "geno")
-ult.cc <- clonecorrect(ultimhier.mn, ~County/Season, keep = 1:2)
-```
+
 
 
 # Assesing population structure using Hendrick's Gst
 
-```{r}
+
+```r
 #Gst
 Gst_Hedrick(clonecorrect(ultimhier, ~County/Season, keep = 1:2))
+```
+
+```
+## $per.locus
+##         Py28         Py62         Py69         Py30         Py55 
+##  0.514023333  0.064589738 -0.006064058  0.126695184  0.629411956 
+##         Py57 
+##  0.481884660 
+## 
+## $global
+## [1] 0.3201126
 ```
 
 # Genetic distance
 
 
 ## County and season using Nei's distance
-```{r}
+
+```r
 set.seed(999)
 ultimhier %>%
 genind2genpop(pop = ~County/Season) %>%
 aboot(cutoff = 50, quiet = TRUE, sample = 1000, distance = nei.dist)
+```
 
+```
+## 
+##  Converting data from a genind to a genpop object... 
+## 
+## ...done.
+```
+
+![](Pop_diff_files/figure-html/unnamed-chunk-2-1.png)<!-- -->
+
+```
+## 
+## Phylogenetic tree with 6 tips and 5 internal nodes.
+## 
+## Tip labels:
+## [1] "kalamazoo_fall-11"   "kent_fall-11"        "wayne_spring-13"    
+## [4] "kalamazoo_spring-13" "wayne_fall-12"       "kalamazoo_fall-12"  
+## Node labels:
+## [1] 100.0    NA    NA  78.8  59.5
+## 
+## Rooted; includes branch lengths.
 ```
 
 ## Tree using Bruvo's distance
 
-```{r}
+
+```r
 #Repeat length
 ssr.reps <- c(3, 3, 6, 6, 2, 3)
 
@@ -64,7 +81,17 @@ ult.tree <- bruvo.boot(ult.cc,
                        tree ="nj", 
                        cutoff = 50, 
                        quiet = TRUE)
+```
 
+```
+## Warning in bruvo.boot(ult.cc, replen = ssr.reps, sample = 1000, tree =
+## "nj", : Some branch lengths of the tree are negative. Normalizing branches
+## according to Kuhner and Felsenstein (1994)
+```
+
+![](Pop_diff_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
+
+```r
 library("ape")
 cols <- rainbow(4)
 ult.tree <- ladderize(ult.tree)
@@ -75,11 +102,14 @@ nodelabels(ult.tree$node.label, adj = c(1.3, -0.5), frame = "n", cex = 0.8,
 axisPhylo(3)
 ```
 
+![](Pop_diff_files/figure-html/unnamed-chunk-3-2.png)<!-- -->
+
 
 
 # AMOVA
 
-```{r, eval=FALSE}
+
+```r
 #AMOVA
 data(ultimhier)
 ultimhier

@@ -1,24 +1,35 @@
-# Pythium populations in Michigan greenhouses
+---
+title: "Pythium populations in Michigan greenhouses"
+output:
+  html_document:
+    keep_md: yes
+editor_options:
+  chunk_output_type: console
+---
 
 
 
 
 
-```
-## Warning: package 'kableExtra' was built under R version 3.4.2
-```
 
 ##Data input
 
 
 ```r
 #Reading genealex object
-ultimhier <- read.genalex("../data/ult3pop.csv")
+ultimhier <- read.genalex("../data/ult_pop_clean.csv")
 
 #recode populations
-ultimhier@pop <- dplyr::recode(ultimhier@pop, "d_ff"="wayne_fall-12", "d_ss"="wayne_spring-13", 
-       "g_f"="kent_fall-11", "k_f"="kalamazoo_fall-11", "k_ff"="kalamazoo_fall-12",
-       "k_ss"="kalamazoo_spring-13")
+
+# ultimhier@pop <- dplyr::recode(ultimhier@pop, 
+#                                "d_ff"="wayne_fall-12", 
+#                                "d_ss"="wayne_spring-13", 
+#                                "g_f"="kent_fall-11", 
+#                                "k_f"="kalamazoo_fall-11", 
+#                                "k_ff"="kalamazoo_fall-12",
+#                                "k_ss"="kalamazoo_spring-13")
+
+splitStrata(ultimhier, sep = "_") <- ~County/Season
 ```
 
 
@@ -53,7 +64,7 @@ locus_table(ultimhier)
 
 ```r
 #genotype accumulation curve
-gac <- genotype_curve(ultimhier, sample = 1000, quiet = TRUE)
+gac <- genotype_curve(ultimhier, sample = 1000, quiet = TRUE, thresh = 0.9)
 ```
 
 ![](Pythium_popgen_files/figure-html/locus_genotype-1.png)<!-- -->
@@ -72,12 +83,12 @@ knitr::kable(ult_table[,-13], format="markdown", digits = 3,
 
 |Pop                 |   N| MLG|  eMLG|    SE|     H|      G| lambda|   E.5|  Hexp|    Ia| rbarD|
 |:-------------------|---:|---:|-----:|-----:|-----:|------:|------:|-----:|-----:|-----:|-----:|
-|wayne_fall-12       |  18|   6| 4.791| 0.774| 1.523|  3.682|  0.728| 0.748| 0.383| 3.188| 0.704|
-|wayne_spring-13     |   2|   2| 2.000| 0.000| 0.693|  2.000|  0.500| 1.000| 0.611|    NA|    NA|
-|kent_fall-11        |   4|   2| 2.000| 0.000| 0.562|  1.600|  0.375| 0.795| 0.000|   NaN|   NaN|
 |kalamazoo_fall-11   |  79|  38| 7.538| 1.302| 3.019| 10.419|  0.904| 0.484| 0.520| 1.138| 0.267|
-|kalamazoo_fall-12   |  47|  18| 7.462| 1.097| 2.609| 11.213|  0.911| 0.812| 0.511| 1.284| 0.275|
+|kent_fall-11        |   4|   2| 2.000| 0.000| 0.562|  1.600|  0.375| 0.795| 0.000|   NaN|   NaN|
+|wayne_spring-13     |   2|   2| 2.000| 0.000| 0.693|  2.000|  0.500| 1.000| 0.611|    NA|    NA|
 |kalamazoo_spring-13 |  16|  13| 8.875| 0.743| 2.513| 11.636|  0.914| 0.938| 0.482| 1.530| 0.326|
+|wayne_fall-12       |  18|   6| 4.791| 0.774| 1.523|  3.682|  0.728| 0.748| 0.383| 3.188| 0.704|
+|kalamazoo_fall-12   |  47|  18| 7.462| 1.097| 2.609| 11.213|  0.911| 0.812| 0.511| 1.284| 0.275|
 |Total               | 166|  65| 8.519| 1.086| 3.629| 21.562|  0.954| 0.561| 0.550| 1.194| 0.256|
 
 Generating a table for the multilocus genotypes across populations
@@ -91,8 +102,8 @@ ult.tab <- mlg.table(ultimhier)
 
 ```r
 #Associating MLGs to individual names
-mlg.id <- mlg.id(ultimhier)
-#write.table(mlg.id, sep = ",", file = "~/Documents/mlgID.csv")
+mlg.ult <- mlg.id(ultimhier)
+#write.table(ult.tab, sep = ",", file = "data/mlg_tab.csv")
 ```
 
 
@@ -103,14 +114,6 @@ hierarchy.  The idea is that season is nested within county.
 
 
 ```r
-#recode strata
-ultimhier@strata$Pop <- recode(ultimhier@strata$Pop, "d_ff"="wayne_fall-12", "d_ss"="wayne_spring-13", 
-       "g_f"="kent_fall-11", "k_f"="kalamazoo_fall-11", "k_ff"="kalamazoo_fall-12",
-       "k_ss"="kalamazoo_spring-13")
-
-#hierarchy splithierarchy was deprecated, so command is updated to last version poppr
-splitStrata(ultimhier) <- ~County/Season
-
 #Accessing strata data of the genind object
 ult.str <- strata(ultimhier)
 knitr::kable(head(ult.str, n = 20), format = "markdown") 
@@ -219,5 +222,36 @@ ult.tab <- mlg.table(ultimhier)
 #write.table(ult.tab, sep = ",", file = "~/Documents/frequencies3pop.csv")
 ```
 
+
+```r
+setPop(ultimhier) <- ~County/Season
+ult.tab.strata <- mlg.table(ultimhier, plot = FALSE)
+
+ult.mlg.table <- as.data.frame(ult.tab.strata) %>% 
+  dplyr::add_rownames(var = "County") %>% 
+  tidyr::gather("MLG","n",2:66) %>%
+  tidyr::separate("County",c("County", "Season"), sep ="_") %>%
+  #group_by(County, Season, MLG) %>% summarise(n = sum(n)) %>%
+  dplyr::filter(n > 0)
+
+
+ggplot(ult.mlg.table, aes(x = MLG, y = n)) + 
+  geom_bar(aes(fill = County), stat = "identity", color = "black") +
+  scale_fill_grey(start=0.6, end=0.2) +
+  theme_linedraw() + xlab("MLG") +
+  theme(panel.grid.major.x = element_blank(), 
+          panel.grid.minor.x = element_blank(),
+          axis.text.x = element_text(size = 10, angle = 90, 
+                                     hjust = 1, vjust = 0.5)) +
+   facet_wrap(~Season, scales = "free_x", shrink = TRUE, 
+              drop = TRUE, ncol = 1,
+              labeller = labeller(Season = c(`fall-11`="Fall 11", `fall-12`="Fall 12", `spring-13`="Spring 12-13")))
+```
+
+![](Pythium_popgen_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
+
+```r
+#write.table(ult.mlg.table, sep = ",", file = "data/mlg_tab.csv")
+```
 
 

@@ -24,7 +24,7 @@ ipak(packages)
 
 
 ```{r Loading_data, echo=FALSE, message=FALSE}
-load(file.path("..", "data", "Pyult.rda"))
+load(file.path("..","data", "Pyult.rda"))
 ult.cc <- clonecorrect(ultimhier, ~County/Season, keep = 1:2)
 ```
 
@@ -73,4 +73,62 @@ fviz_pca_ind(Py.pca,
              )
 
 ```
+
+
+
+DAPC analysis of the Pythium ultimum
+____________________________________
+
+```{r}
+library(adegenet)
+
+ult.cc <- setPop(ult.cc, ~County)
+
+set.seed(999)
+py.xval <- xvalDapc(tab(ult.cc, NA.method = "mean"), pop(ult.cc), 
+                    n.pca = 2:30,
+                    n.rep = 1000,
+                    parallel = "multicore", 
+                    ncpus = 4L)
+
+py.xval$DAPC
+```
+
+
+Using this validation, 10 PCs give us the lowest error.
+
+```{r}
+py.county <- py.xval$DAPC
+
+scatter(py.county, 
+        scree.pca = TRUE,
+        bg = "grey95",
+        col = "black",
+        pch = seq(nlevels(strata(ult.cc)$County)),
+        legend = "true",
+        posi.leg = "topleft",
+        posi.pca = "topright"
+        )
+```
+
+
+##By County
+
+```{r}
+library(ggcompoplot)
+ggcompoplot(py.county, setPop(ult.cc, ~County), pal = rev(funky(nlevels(strata(ult.cc)$County))), cols = 1)
+```
+
+##By Season
+
+```{r}
+ggcompoplot(py.county, setPop(ult.cc, ~Season), pal = rev(funky(nlevels(strata(ult.cc)$Season))), cols = 1)
+```
+
+##By County and Season
+
+```{r, fig.height= 10}
+ggcompoplot(py.county, setPop(ult.cc, ~County/Season), pal = rev(funky(nlevels(strata(ult.cc)$County))), cols = 1)
+```
+
 

@@ -123,3 +123,119 @@ fviz_pca_ind(Py.pca,
 
 ![](PCA_and_DAPC_files/figure-html/unnamed-chunk-1-6.png)<!-- -->
 
+
+
+DAPC analysis of the Pythium ultimum
+____________________________________
+
+
+```r
+library(adegenet)
+
+ult.cc <- setPop(ult.cc, ~County)
+
+set.seed(999)
+py.xval <- xvalDapc(tab(ult.cc, NA.method = "mean"), pop(ult.cc), 
+                    n.pca = 2:30,
+                    n.rep = 1000,
+                    parallel = "multicore", 
+                    ncpus = 4L)
+```
+
+![](PCA_and_DAPC_files/figure-html/unnamed-chunk-2-1.png)<!-- -->
+
+```r
+py.xval$DAPC
+```
+
+```
+## 	#################################################
+## 	# Discriminant Analysis of Principal Components #
+## 	#################################################
+## class: dapc
+## $call: dapc.data.frame(x = as.data.frame(x), grp = ..1, n.pca = ..2, 
+##     n.da = ..3)
+## 
+## $n.pca: 8 first PCs of PCA used
+## $n.da: 2 discriminant functions saved
+## $var (proportion of conserved variance): 0.93
+## 
+## $eig (eigenvalues): 18.33 14.8  vector    length content                   
+## 1 $eig      2      eigenvalues               
+## 2 $grp      79     prior group assignment    
+## 3 $prior    3      prior group probabilities 
+## 4 $assign   79     posterior group assignment
+## 5 $pca.cent 23     centring vector of PCA    
+## 6 $pca.norm 23     scaling vector of PCA     
+## 7 $pca.eig  17     eigenvalues of PCA        
+## 
+##   data.frame    nrow ncol
+## 1 $tab          79   8   
+## 2 $means        3    8   
+## 3 $loadings     8    2   
+## 4 $ind.coord    79   2   
+## 5 $grp.coord    3    2   
+## 6 $posterior    79   3   
+## 7 $pca.loadings 23   8   
+## 8 $var.contr    23   2   
+##   content                                          
+## 1 retained PCs of PCA                              
+## 2 group means                                      
+## 3 loadings of variables                            
+## 4 coordinates of individuals (principal components)
+## 5 coordinates of groups                            
+## 6 posterior membership probabilities               
+## 7 PCA loadings of original variables               
+## 8 contribution of original variables
+```
+
+
+Using this validation, 10 PCs give us the lowest error.
+
+
+```r
+py.county <- py.xval$DAPC
+
+scatter(py.county, 
+        scree.pca = TRUE,
+        bg = "grey95",
+        col = "black",
+        pch = seq(nlevels(strata(ult.cc)$County)),
+        legend = "true",
+        posi.leg = "topleft",
+        posi.pca = "topright"
+        )
+```
+
+![](PCA_and_DAPC_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
+
+
+##By County
+
+
+```r
+library(ggcompoplot)
+ggcompoplot(py.county, setPop(ult.cc, ~County), pal = rev(funky(nlevels(strata(ult.cc)$County))), cols = 1)
+```
+
+![](PCA_and_DAPC_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
+
+##By Season
+
+
+```r
+ggcompoplot(py.county, setPop(ult.cc, ~Season), pal = rev(funky(nlevels(strata(ult.cc)$Season))), cols = 1)
+```
+
+![](PCA_and_DAPC_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
+
+##By County and Season
+
+
+```r
+ggcompoplot(py.county, setPop(ult.cc, ~County/Season), pal = rev(funky(nlevels(strata(ult.cc)$County))), cols = 1)
+```
+
+![](PCA_and_DAPC_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
+
+

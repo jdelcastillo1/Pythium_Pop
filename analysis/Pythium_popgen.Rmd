@@ -29,12 +29,19 @@ ipak(packages)
 
 ```{r}
 #Reading genealex object
-ultimhier <- read.genalex("../data/ult3pop.csv")
+ultimhier <- read.genalex("../data/ult_pop_clean.csv")
 
 #recode populations
-ultimhier@pop <- dplyr::recode(ultimhier@pop, "d_ff"="wayne_fall-12", "d_ss"="wayne_spring-13", 
-       "g_f"="kent_fall-11", "k_f"="kalamazoo_fall-11", "k_ff"="kalamazoo_fall-12",
-       "k_ss"="kalamazoo_spring-13")
+
+# ultimhier@pop <- dplyr::recode(ultimhier@pop, 
+#                                "d_ff"="wayne_fall-12", 
+#                                "d_ss"="wayne_spring-13", 
+#                                "g_f"="kent_fall-11", 
+#                                "k_f"="kalamazoo_fall-11", 
+#                                "k_ff"="kalamazoo_fall-12",
+#                                "k_ss"="kalamazoo_spring-13")
+
+splitStrata(ultimhier, sep = "_") <- ~County/Season
 ```
 
 
@@ -46,7 +53,7 @@ The aim is to determine the if the SSRs are enough to describe the genotypes in 
 locus_table(ultimhier)
 
 #genotype accumulation curve
-gac <- genotype_curve(ultimhier, sample = 1000, quiet = TRUE)
+gac <- genotype_curve(ultimhier, sample = 1000, quiet = TRUE, thresh = 0.9)
 ```
 
 ##Genotype diversity
@@ -64,8 +71,8 @@ Generating a table for the multilocus genotypes across populations
 ult.tab <- mlg.table(ultimhier)
 
 #Associating MLGs to individual names
-mlg.id <- mlg.id(ultimhier)
-#write.table(mlg.id, sep = ",", file = "~/Documents/mlgID.csv")
+mlg.ult <- mlg.id(ultimhier)
+#write.table(ult.tab, sep = ",", file = "data/mlg_tab.csv")
 ```
 
 
@@ -75,14 +82,6 @@ First, the strata will be recoded to facilitate interpretation of the data.  The
 hierarchy.  The idea is that season is nested within county.
 
 ```{r}
-#recode strata
-ultimhier@strata$Pop <- recode(ultimhier@strata$Pop, "d_ff"="wayne_fall-12", "d_ss"="wayne_spring-13", 
-       "g_f"="kent_fall-11", "k_f"="kalamazoo_fall-11", "k_ff"="kalamazoo_fall-12",
-       "k_ss"="kalamazoo_spring-13")
-
-#hierarchy splithierarchy was deprecated, so command is updated to last version poppr
-splitStrata(ultimhier) <- ~County/Season
-
 #Accessing strata data of the genind object
 ult.str <- strata(ultimhier)
 knitr::kable(head(ult.str, n = 20), format = "markdown") 
@@ -119,6 +118,32 @@ ult.tab <- mlg.table(ultimhier)
 #write.table(ult.tab, sep = ",", file = "~/Documents/frequencies3pop.csv")
 ```
 
+```{r, message=FALSE, warning=FALSE, fig.height=10}
+setPop(ultimhier) <- ~County/Season
+ult.tab.strata <- mlg.table(ultimhier, plot = FALSE)
+
+ult.mlg.table <- as.data.frame(ult.tab.strata) %>% 
+  dplyr::add_rownames(var = "County") %>% 
+  tidyr::gather("MLG","n",2:66) %>%
+  tidyr::separate("County",c("County", "Season"), sep ="_") %>%
+  #group_by(County, Season, MLG) %>% summarise(n = sum(n)) %>%
+  dplyr::filter(n > 0)
+
+
+ggplot(ult.mlg.table, aes(x = MLG, y = n)) + 
+  geom_bar(aes(fill = County), stat = "identity", color = "black") +
+  scale_fill_grey(start=0.6, end=0.2) +
+  theme_linedraw() + xlab("MLG") +
+  theme(panel.grid.major.x = element_blank(), 
+          panel.grid.minor.x = element_blank(),
+          axis.text.x = element_text(size = 10, angle = 90, 
+                                     hjust = 1, vjust = 0.5)) +
+   facet_wrap(~Season, scales = "free_x", shrink = TRUE, 
+              drop = TRUE, ncol = 1,
+              labeller = labeller(Season = c(`fall-11`="Fall 11", `fall-12`="Fall 12", `spring-13`="Spring 12-13")))
+  
+#write.table(ult.mlg.table, sep = ",", file = "data/mlg_tab.csv")
+```
 
 ```{r saving_rda, echo=FALSE, message=FALSE}
 #save(ultimhier, file = "Pyult.rda")

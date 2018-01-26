@@ -7,26 +7,10 @@ editor_options:
   chunk_output_type: console
 ---
 
-```{r custom_functions, echo=FALSE, message=FALSE, results='hide', warning=FALSE}
-# ipak function: install and load multiple R packages.
-# check to see if packages are installed. Install them if they are not, then load them into the R session.
-# Source: https://gist.github.com/stevenworthington/3178163
-ipak <- function(pkg){
-new.pkg <- pkg[!(pkg %in% installed.packages()[,"Package"])]
-if (length(new.pkg)) 
-    install.packages(new.pkg, dependencies = TRUE)
-sapply(pkg, require, character.only = TRUE)
-}
-
-packages <- c("ggplot2","RColorBrewer","poppr", "dplyr", "knitr","kableExtra")
-ipak(packages)
-```
 
 
-```{r Loading_data, echo=FALSE, message=FALSE}
-load(file.path("..","data", "Pyult.rda"))
-ult.cc <- clonecorrect(ultimhier, ~County/Season, keep = 1:2)
-```
+
+
 
 
 
@@ -35,7 +19,8 @@ MSN by Season
 ______________
 
 
-```{r}
+
+```r
 #Repeat length
 ssr.reps <- c(3, 3, 6, 6, 2, 3)
 
@@ -44,11 +29,14 @@ setPop(ult.cc) <- ~Season
 season.msn <- bruvo.msn(ult.cc, replen = ssr.reps, showplot = TRUE)
 ```
 
+![](msn_analysis_files/figure-html/unnamed-chunk-1-1.png)<!-- -->
+
 
 Correcting the figure for presentation:
 
 
-```{r}
+
+```r
 #MSN by season
 setPop(ultimhier) <- ~Season
 season.msn <- bruvo.msn(ultimhier, 
@@ -75,6 +63,8 @@ plot_poppr_msn(ultimhier,
                layfun = igraph::layout_nicely)
 ```
 
+![](msn_analysis_files/figure-html/unnamed-chunk-2-1.png)<!-- -->
+
 
 
 MSN by County
@@ -83,7 +73,8 @@ _____________
 
 
 
-```{r}
+
+```r
 #MSN by county
 setPop(ultimhier) <- ~County
 county.msn <- bruvo.msn(ultimhier, replen = ssr.reps, showplot = FALSE)
@@ -105,4 +96,6 @@ plot_poppr_msn(ultimhier, county.msn,
                scale.leg = TRUE,
                layfun = igraph::layout_nicely)
 ```
+
+![](msn_analysis_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
 

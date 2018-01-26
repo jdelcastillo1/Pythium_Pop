@@ -29,11 +29,9 @@ ult.cc <- clonecorrect(ultimhier, ~County/Season, keep = 1:2)
 ```
 
 
-
 MSN by Season
 
 ______________
-
 
 ```{r}
 #Repeat length
@@ -48,7 +46,7 @@ season.msn <- bruvo.msn(ult.cc, replen = ssr.reps, showplot = TRUE)
 Correcting the figure for presentation:
 
 
-```{r}
+```{r, fig.align="center", fig.width=6}
 #MSN by season
 setPop(ultimhier) <- ~Season
 season.msn <- bruvo.msn(ultimhier, 
@@ -81,9 +79,7 @@ MSN by County
 
 _____________
 
-
-
-```{r}
+```{r, fig.align="center", fig.width=6}
 #MSN by county
 setPop(ultimhier) <- ~County
 county.msn <- bruvo.msn(ultimhier, replen = ssr.reps, showplot = FALSE)

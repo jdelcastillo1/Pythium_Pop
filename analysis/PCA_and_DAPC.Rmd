@@ -28,10 +28,11 @@ load(file.path("..","data", "Pyult.rda"))
 ult.cc <- clonecorrect(ultimhier, ~County/Season, keep = 1:2)
 ```
 
-PCA
--------
 
-```{r}
+# PCA analysis
+
+
+```{r, message=FALSE}
 
 ult.2 <- setPop(ultimhier, ~County)
 Py.x <- scaleGen(ult.2, NA.method="mean", scale=FALSE)
@@ -45,13 +46,28 @@ eig.perc
 
 library(factoextra)
 fviz_eig(Py.pca)
+```
 
+
+**Variance**
+
+_________
+
+
+```{r}
 fviz_pca_var(Py.pca,
   col.var = "contrib", # Color by contributions to the PC
   gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
   repel = TRUE     # Avoid text overlapping
 )
+```
 
+
+**PCA by Season**
+
+______________
+
+```{r}
 groups.season <- setPop(ult.2, ~Season) %>% pop()
 groups.county <- setPop(ult.2, ~County) %>% pop()
 
@@ -63,7 +79,15 @@ fviz_pca_ind(Py.pca,
              #ellipse.type = "confidence",
              legend.title = "Groups"
              )
+```
 
+
+**PCA by County**
+
+______________
+
+
+```{r}
 fviz_pca_ind(Py.pca,
              col.ind = groups.county, # color by groups
              #palette = colores.county,
@@ -76,8 +100,8 @@ fviz_pca_ind(Py.pca,
 
 
 
-DAPC analysis of the Pythium ultimum
-____________________________________
+# DAPC analysis of _Pythium ultimum_ in Michigan
+
 
 ```{r}
 library(adegenet)
@@ -111,21 +135,26 @@ scatter(py.county,
         )
 ```
 
+**By County **
 
-##By County
+____________
 
 ```{r}
 library(ggcompoplot)
 ggcompoplot(py.county, setPop(ult.cc, ~County), pal = rev(funky(nlevels(strata(ult.cc)$County))), cols = 1)
 ```
 
-##By Season
+**By Season**
+
+________________
 
 ```{r}
 ggcompoplot(py.county, setPop(ult.cc, ~Season), pal = rev(funky(nlevels(strata(ult.cc)$Season))), cols = 1)
 ```
 
-##By County and Season
+**By County and Season**
+
+_________________________
 
 ```{r, fig.height= 10}
 ggcompoplot(py.county, setPop(ult.cc, ~County/Season), pal = rev(funky(nlevels(strata(ult.cc)$County))), cols = 1)

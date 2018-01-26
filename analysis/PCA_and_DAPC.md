@@ -12,8 +12,9 @@ editor_options:
 
 
 
-PCA
--------
+
+# PCA analysis
+
 
 
 ```r
@@ -73,17 +74,17 @@ eig.perc
 
 ```r
 library(factoextra)
-```
-
-```
-## Welcome! Related Books: `Practical Guide To Cluster Analysis in R` at https://goo.gl/13EFCZ
-```
-
-```r
 fviz_eig(Py.pca)
 ```
 
 ![](PCA_and_DAPC_files/figure-html/unnamed-chunk-1-3.png)<!-- -->
+
+
+**Variance**
+
+_________
+
+
 
 ```r
 fviz_pca_var(Py.pca,
@@ -93,7 +94,13 @@ fviz_pca_var(Py.pca,
 )
 ```
 
-![](PCA_and_DAPC_files/figure-html/unnamed-chunk-1-4.png)<!-- -->
+![](PCA_and_DAPC_files/figure-html/unnamed-chunk-2-1.png)<!-- -->
+
+
+**PCA by Season**
+
+______________
+
 
 ```r
 groups.season <- setPop(ult.2, ~Season) %>% pop()
@@ -109,7 +116,14 @@ fviz_pca_ind(Py.pca,
              )
 ```
 
-![](PCA_and_DAPC_files/figure-html/unnamed-chunk-1-5.png)<!-- -->
+![](PCA_and_DAPC_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
+
+
+**PCA by County**
+
+______________
+
+
 
 ```r
 fviz_pca_ind(Py.pca,
@@ -121,12 +135,12 @@ fviz_pca_ind(Py.pca,
              )
 ```
 
-![](PCA_and_DAPC_files/figure-html/unnamed-chunk-1-6.png)<!-- -->
+![](PCA_and_DAPC_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
 
 
 
-DAPC analysis of the Pythium ultimum
-____________________________________
+# DAPC analysis of _Pythium ultimum_ in Michigan
+
 
 
 ```r
@@ -142,7 +156,7 @@ py.xval <- xvalDapc(tab(ult.cc, NA.method = "mean"), pop(ult.cc),
                     ncpus = 4L)
 ```
 
-![](PCA_and_DAPC_files/figure-html/unnamed-chunk-2-1.png)<!-- -->
+![](PCA_and_DAPC_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
 
 ```r
 py.xval$DAPC
@@ -207,10 +221,11 @@ scatter(py.county,
         )
 ```
 
-![](PCA_and_DAPC_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
+![](PCA_and_DAPC_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
 
+**By County **
 
-##By County
+____________
 
 
 ```r
@@ -218,24 +233,28 @@ library(ggcompoplot)
 ggcompoplot(py.county, setPop(ult.cc, ~County), pal = rev(funky(nlevels(strata(ult.cc)$County))), cols = 1)
 ```
 
-![](PCA_and_DAPC_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
+![](PCA_and_DAPC_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
 
-##By Season
+**By Season**
+
+________________
 
 
 ```r
 ggcompoplot(py.county, setPop(ult.cc, ~Season), pal = rev(funky(nlevels(strata(ult.cc)$Season))), cols = 1)
 ```
 
-![](PCA_and_DAPC_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
+![](PCA_and_DAPC_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
 
-##By County and Season
+**By County and Season**
+
+_________________________
 
 
 ```r
 ggcompoplot(py.county, setPop(ult.cc, ~County/Season), pal = rev(funky(nlevels(strata(ult.cc)$County))), cols = 1)
 ```
 
-![](PCA_and_DAPC_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
+![](PCA_and_DAPC_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
 
 

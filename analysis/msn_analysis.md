@@ -13,11 +13,9 @@ editor_options:
 
 
 
-
 MSN by Season
 
 ______________
-
 
 
 ```r
@@ -63,15 +61,13 @@ plot_poppr_msn(ultimhier,
                layfun = igraph::layout_nicely)
 ```
 
-![](msn_analysis_files/figure-html/unnamed-chunk-2-1.png)<!-- -->
+<img src="msn_analysis_files/figure-html/unnamed-chunk-2-1.png" style="display: block; margin: auto;" />
 
 
 
 MSN by County
 
 _____________
-
-
 
 
 ```r
@@ -97,5 +93,5 @@ plot_poppr_msn(ultimhier, county.msn,
                layfun = igraph::layout_nicely)
 ```
 
-![](msn_analysis_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
+<img src="msn_analysis_files/figure-html/unnamed-chunk-3-1.png" style="display: block; margin: auto;" />
 

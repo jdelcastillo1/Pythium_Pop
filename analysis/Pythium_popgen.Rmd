@@ -145,6 +145,19 @@ ggplot(ult.mlg.table, aes(x = MLG, y = n)) +
 #write.table(ult.mlg.table, sep = ",", file = "data/mlg_tab.csv")
 ```
 
+### Shared MLG by Season
+
+```{r}
+mlg.crosspop(ultimhier, strata = ~Season)
+```
+
+### Shared MLG by County
+
+```{r}
+mlg.crosspop(ultimhier, strata = ~County)
+```
+
+
 ```{r saving_rda, echo=FALSE, message=FALSE}
 #save(ultimhier, file = "Pyult.rda")
 ```

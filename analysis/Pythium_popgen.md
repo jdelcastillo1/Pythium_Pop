@@ -254,4 +254,104 @@ ggplot(ult.mlg.table, aes(x = MLG, y = n)) +
 #write.table(ult.mlg.table, sep = ",", file = "data/mlg_tab.csv")
 ```
 
+### Shared MLG by Season
+
+
+```r
+mlg.crosspop(ultimhier, strata = ~Season)
+```
+
+```
+## MLG.1: (8 inds) fall-11 fall-12
+## MLG.14: (3 inds) fall-11 spring-13
+## MLG.15: (18 inds) fall-11 fall-12
+## MLG.23: (5 inds) fall-11 spring-13
+## MLG.24: (3 inds) fall-11 spring-13 fall-12
+## MLG.28: (2 inds) fall-11 fall-12
+## MLG.33: (20 inds) fall-11 spring-13
+## MLG.47: (4 inds) fall-11 fall-12
+## MLG.55: (2 inds) fall-11 spring-13
+## MLG.65: (2 inds) fall-11 spring-13
+```
+
+```
+## $MLG.1
+## fall-11 fall-12 
+##       2       6 
+## 
+## $MLG.14
+##   fall-11 spring-13 
+##         1         2 
+## 
+## $MLG.15
+## fall-11 fall-12 
+##      14       4 
+## 
+## $MLG.23
+##   fall-11 spring-13 
+##         3         2 
+## 
+## $MLG.24
+##   fall-11 spring-13   fall-12 
+##         1         1         1 
+## 
+## $MLG.28
+## fall-11 fall-12 
+##       1       1 
+## 
+## $MLG.33
+##   fall-11 spring-13 
+##        18         2 
+## 
+## $MLG.47
+## fall-11 fall-12 
+##       3       1 
+## 
+## $MLG.55
+##   fall-11 spring-13 
+##         1         1 
+## 
+## $MLG.65
+##   fall-11 spring-13 
+##         1         1
+```
+
+### Shared MLG by County
+
+
+```r
+mlg.crosspop(ultimhier, strata = ~County)
+```
+
+```
+## MLG.10: (15 inds) kalamazoo wayne
+## MLG.14: (3 inds) kalamazoo wayne
+## MLG.23: (5 inds) kalamazoo kent
+## MLG.24: (3 inds) kalamazoo wayne
+## MLG.44: (3 inds) kalamazoo wayne
+```
+
+```
+## $MLG.10
+## kalamazoo     wayne 
+##         7         8 
+## 
+## $MLG.14
+## kalamazoo     wayne 
+##         2         1 
+## 
+## $MLG.23
+## kalamazoo      kent 
+##         2         3 
+## 
+## $MLG.24
+## kalamazoo     wayne 
+##         2         1 
+## 
+## $MLG.44
+## kalamazoo     wayne 
+##         1         2
+```
+
+
 

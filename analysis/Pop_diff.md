@@ -92,17 +92,70 @@ ult.tree <- bruvo.boot(ult.cc,
 ![](Pop_diff_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
 
 ```r
-library("ape")
-cols <- rainbow(4)
-ult.tree <- ladderize(ult.tree)
-plot.phylo(ult.tree, type = "phylogram",cex = 0.8, font = 0.7, adj = 0, tip.color = cols[ult.cc$pop],
-           label.offset = 0.0125, use.edge.length = FALSE)
-nodelabels(ult.tree$node.label, adj = c(1.3, -0.5), frame = "n", cex = 0.8,
-           font = 3, xpd = TRUE)
-axisPhylo(3)
+ult.tree$tip.label <- stringr::str_trim(ult.tree$tip.label) %>% 
+  stringr::str_replace_all(" ","")
+
+
+Py_metadata <- read.csv("../data/Py_metadata.csv") %>%
+  select(Isolate, Origin, Season, Year, Species) %>%
+  column_to_rownames("Isolate")
+
+ult.tr2 <- ggtree(ult.tree, branch.length = "none") + 
+  geom_tiplab() + 
+  geom_text2(aes(label=label, subset = !is.na(as.numeric(label)) & as.numeric(label) > 50), hjust =-.3) + 
+  xlim_tree(10) +
+  theme_tree()
 ```
 
-![](Pop_diff_files/figure-html/unnamed-chunk-3-2.png)<!-- -->
+
+
+```r
+colors <- c("#cf4661","#bf7658","#ce5d2a",
+            "#c4a643","#6e7a32","#6ab544",
+            "#53aa78","#4cb8d1","#7385cb",
+            "#7e63cb","#c851b8","#bf679b")
+
+#Adding heatmap
+ult.tr3 <- gheatmap(ult.tr2, Py_metadata, colnames = FALSE, width = 0.6, offset = 1)
+```
+
+```
+## Warning: attributes are not identical across measure variables;
+## they will be dropped
+```
+
+```r
+#Formatting colors and legend for heatmap
+lbl <- get_heatmap_column_position(ult.tr3, by="top")
+ult.tr3 + scale_fill_manual(breaks=c("Kalamazoo","Kent","Wayne","fall-11","fall-12","spring-13","2011","2012","2013",
+                                       "P. ultimum ", "P. ultimum var. ultimum"), values = colors) +
+  geom_text(data=lbl, aes(x, y, label=label), 
+            nudge_y = 1.5, 
+            nudge_x = 0.5, 
+            angle=45,
+            size=4)
+```
+
+```
+## Scale for 'fill' is already present. Adding another scale for 'fill',
+## which will replace the existing scale.
+```
+
+```
+## Warning in fun(x, ...): NAs introduced by coercion
+```
+
+```
+## Warning in fun(x, ...): NAs introduced by coercion
+```
+
+```
+## Warning in FUN(X[[i]], ...): NAs introduced by coercion
+
+## Warning in FUN(X[[i]], ...): NAs introduced by coercion
+```
+
+<img src="Pop_diff_files/figure-html/unnamed-chunk-4-1.png" style="display: block; margin: auto;" />
 
 
 

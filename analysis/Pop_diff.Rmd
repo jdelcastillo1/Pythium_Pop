@@ -73,31 +73,31 @@ Py_metadata <- read.csv("../data/Py_metadata.csv") %>%
   select(Isolate, Origin, Season, Year, Species) %>%
   column_to_rownames("Isolate")
 
-ult.tr2 <- ggtree(ult.tree, branch.length = "none") + 
-  geom_tiplab() + 
-  geom_text2(aes(label=label, subset = !is.na(as.numeric(label)) & as.numeric(label) > 50), hjust =-.3) + 
+ult.tr2 <- ggtree(ult.tree, branch.length = "none", layout = "circular") + 
+  geom_tiplab2(align = TRUE) + 
+  geom_text2(aes(label=label, subset = !is.na(as.numeric(label)) & as.numeric(label) > 50), vjust =-1, hjust=-.3) + 
   xlim_tree(10) +
   theme_tree()
 ```
 
 
-```{r, fig.align="center", fig.width=10, warning=FALSE}
+```{r, fig.align="center", fig.width=10, warning=FALSE, message=FALSE}
 colors <- c("#cf4661","#bf7658","#ce5d2a",
             "#c4a643","#6e7a32","#6ab544",
             "#53aa78","#4cb8d1","#7385cb",
             "#7e63cb","#c851b8","#bf679b")
 
 #Adding heatmap
-ult.tr3 <- gheatmap(ult.tr2, Py_metadata, colnames = FALSE, width = 0.6, offset = 1)
+ult.tr3 <- gheatmap(ult.tr2, Py_metadata, colnames = FALSE, width = 0.4, offset = 3.5)
 
 #Formatting colors and legend for heatmap
 lbl <- get_heatmap_column_position(ult.tr3, by="top")
 ult.tr3 + scale_fill_manual(breaks=c("Kalamazoo","Kent","Wayne","fall-11","fall-12","spring-13","2011","2012","2013",
                                        "P. ultimum ", "P. ultimum var. ultimum"), values = colors) +
   geom_text(data=lbl, aes(x, y, label=label), 
-            nudge_y = 1.5, 
-            nudge_x = 0.5, 
-            angle=45,
+            nudge_y = 1, 
+            nudge_x = -.7, 
+            angle=60,
             size=4)
 ```
 
@@ -105,44 +105,29 @@ ult.tr3 + scale_fill_manual(breaks=c("Kalamazoo","Kent","Wayne","fall-11","fall-
 
 # AMOVA
 
-```{r, eval=FALSE}
+```{r}
 #AMOVA
-data(ultimhier)
-ultimhier
-splithierarchy(ultimhier) <- ~County/Season
-ultimhier
-setpop(ultimhier)<- ~Season 
-ultimhier
+
 #Replacing mising data with 0
-nanzero <- missingno(ultimhier, "zero")
-nanind <- missingno(ultimhier, "geno")
-table(gethierarchy(ultimhier, ~County))
-table(gethierarchy(nanind, ~County/Season, combine = FALSE))
-ultimhieramova <- poppr.amova(ultimhier, ~County/Season)
-ultimhieramova0 <- poppr.amova(nanind, ~County/Season)
-ultimzhienamova <-poppr.amova(ultimhier, ~County/Season, within = FALSE)
-ultimamovacc <- poppr.amova(ultimhier, ~County/Season, clonecorrect = TRUE)
-ultimamovacc0 <- poppr.amova(nanind, ~County/Season, clonecorrect = TRUE)
-ultimhieramova
-ultimhieramova0
-ultimzhienamova
-ultimamovacc
-ultimamovacc0
-write.table(ultimhieramova$componentsofcovariance, sep = ",", file = "~/Documents/ultimhierAMOVA.csv")
-write.table(ultimhier$statphi, sep = ",", file = "~/Documents/ultimhierphiAMOVA.csv")
-#significance
-ultimhier
+ult.nan <- missingno(ultimhier, "geno")
+ult.nan.cc <-  clonecorrect(ult.nan, ~County/Season)
+
+#AMOVA on clone corrected data without missing values
+(ultimhieramova <- poppr.amova(ult.nan.cc, ~Season, within = TRUE))
+(ultimhieramova0 <- poppr.amova(ult.nan.cc, ~County/Season))
+
+#Writing results to file
+# write.table(ultimhieramova$componentsofcovariance, sep = ",", file = "~/Documents/ultimhierAMOVA.csv")
+# write.table(ultimhieramova$statphi, sep = ",", file = "~/Documents/ultimhierphiAMOVA.csv")
+
+#Significance
 set.seed(1999)
-ultmsignif   <- randtest(ultimhieramova0, nrepet = 999)
-Aeutccsignif <- randtest(ultimamovacc0, nrepet = 1000)
+(ultmsignif   <- randtest(ultimhieramova, nrepet = 1000))
 plot(ultmsignif)
-ultmsignif
-pdf(file = "~/Documents/significance AMOVA.pdf", width = 5, height = 5)
-plot (Aeutccsignif)
-dev.off()
-Aeutccsignif
-write.table((ultmsignif), sep = ",", file = "~/Documents/significancewithoutAMOVA.csv")
-plot(Aeutccsignif)
+
+set.seed(1999)
+(ultmsignif0 <- randtest(ultimhieramova0, nrepet = 1000))
+plot(ultmsignif0)
 ```
 
 

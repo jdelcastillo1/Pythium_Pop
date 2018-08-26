@@ -130,4 +130,3 @@ set.seed(1999)
 plot(ultmsignif0)
 ```
 
-

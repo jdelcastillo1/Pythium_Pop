@@ -393,7 +393,7 @@ kable(nanhwe.full, format = "markdown")
 |     |      chi^2| df| Pr(chi^2 >)| Pr.exact|
 |:----|----------:|--:|-----------:|--------:|
 |Py28 | 367.725524| 15|   0.0000000|    0.000|
-|Py62 |   8.359578|  3|   0.0391365|    0.032|
+|Py62 |   8.359578|  3|   0.0391365|    0.031|
 |Py69 |  31.297257|  1|   0.0000000|    0.000|
 |Py30 |  35.057575|  3|   0.0000001|    0.000|
 |Py55 | 228.144633| 15|   0.0000000|    0.000|
@@ -518,8 +518,8 @@ ult.cc %>% setPop(~Season)
 ```
 
 ```r
-psex_season <- psex(ult.cc, by_pop = FALSE, method = "single")
-table(as.vector(psex_season < 0.05))
+psex_cc <- psex(ult.cc, by_pop = FALSE, method = "single")
+table(as.vector(psex_cc < 0.05))
 ```
 
 ```
@@ -529,11 +529,31 @@ table(as.vector(psex_season < 0.05))
 ```
 
 ```r
-plot(psex_season, log = "y", col = ifelse(psex_season > 0.05, "red", "blue"))
+plot(psex_cc, log = "y", col = ifelse(psex_cc > 0.05, "red", "blue"))
 abline(h = 0.05, lty = 2)
 title("Probability of second encounter")
 ```
 
 ![](Clone_correction_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
+
+```r
+## all isolates
+psex_all<- psex(ultimhier, by_pop = FALSE, method = "single")
+table(as.vector(psex_all < 0.05))
+```
+
+```
+## 
+## FALSE  TRUE 
+##    30   136
+```
+
+```r
+plot(psex_all, log = "y", col = ifelse(psex_all > 0.05, "red", "blue"))
+abline(h = 0.05, lty = 2)
+title("Probability of second encounter")
+```
+
+![](Clone_correction_files/figure-html/unnamed-chunk-4-2.png)<!-- -->
 
 

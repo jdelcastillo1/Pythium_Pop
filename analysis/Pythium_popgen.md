@@ -12,7 +12,7 @@ editor_options:
 
 
 
-##Data input
+## Data input
 
 
 ```r
@@ -33,7 +33,8 @@ splitStrata(ultimhier, sep = "_") <- ~County/Season
 ```
 
 
-##Genotype accumulation curve
+## Genotype accumulation curve
+
 The aim is to determine the if the SSRs are enough to describe the genotypes in the population.
 
 
@@ -69,14 +70,15 @@ gac <- genotype_curve(ultimhier, sample = 1000, quiet = TRUE, thresh = 0.9)
 
 ![](Pythium_popgen_files/figure-html/locus_genotype-1.png)<!-- -->
 
-##Genotype diversity
+## Genotype diversity
+
 Basic summary of Pythium population data and definition of multilocus genotypes.
 
 
 ```r
 ult_table <- poppr(ultimhier)
 knitr::kable(ult_table[,-13], format="markdown", digits = 3,
-             caption=" Summary statistics of P. ultimum populations")
+             caption=" Summary statistics of _P. ultimum_ populations")
 ```
 
 
@@ -107,7 +109,7 @@ mlg.ult <- mlg.id(ultimhier)
 ```
 
 
-##Hierarchy and strata by factors
+## Hierarchy and strata by factors
 
 First, the strata will be recoded to facilitate interpretation of the data.  Then, the strata will be divided to generated a nested 
 hierarchy.  The idea is that season is nested within county.
@@ -237,7 +239,7 @@ ult.mlg.table <- as.data.frame(ult.tab.strata) %>%
 
 ggplot(ult.mlg.table, aes(x = MLG, y = n)) + 
   geom_bar(aes(fill = County), stat = "identity", color = "black") +
-  scale_fill_grey(start=0.6, end=0.2) +
+  scale_fill_manual(values = c("#252525","#ffffff", "#969696")) +
   theme_linedraw() + xlab("MLG") +
   theme(panel.grid.major.x = element_blank(), 
           panel.grid.minor.x = element_blank(),

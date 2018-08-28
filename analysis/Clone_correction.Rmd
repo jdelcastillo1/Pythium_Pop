@@ -192,3 +192,19 @@ ult.cc %>% setPop(~Season) %>% poppr(sample= 999, total = FALSE)
 
 ```
 
+
+Probability of encountering a genotype more than once by chance (Psex)
+_______________________________________________________________
+
+```{r}
+ult.cc %>% setPop(~Season)
+
+psex_season <- psex(ult.cc, by_pop = FALSE, method = "single")
+table(as.vector(psex_season < 0.05))
+
+plot(psex_season, log = "y", col = ifelse(psex_season > 0.05, "red", "blue"))
+abline(h = 0.05, lty = 2)
+title("Probability of second encounter")
+```
+
+

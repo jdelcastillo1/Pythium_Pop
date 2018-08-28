@@ -393,7 +393,7 @@ kable(nanhwe.full, format = "markdown")
 |     |      chi^2| df| Pr(chi^2 >)| Pr.exact|
 |:----|----------:|--:|-----------:|--------:|
 |Py28 | 367.725524| 15|   0.0000000|    0.000|
-|Py62 |   8.359578|  3|   0.0391365|    0.019|
+|Py62 |   8.359578|  3|   0.0391365|    0.032|
 |Py69 |  31.297257|  1|   0.0000000|    0.000|
 |Py30 |  35.057575|  3|   0.0000001|    0.000|
 |Py55 | 228.144633| 15|   0.0000000|    0.000|
@@ -430,7 +430,7 @@ library("vegan")
 ```
 
 ```
-## This is vegan 2.4-5
+## This is vegan 2.5-2
 ```
 
 ```r
@@ -491,4 +491,49 @@ ult.cc %>% setPop(~Season) %>% poppr(sample= 999, total = FALSE)
 ## 2 0.221 0.001    .
 ## 3 0.189 0.001    .
 ```
+
+
+Probability of encountering a genotype more than once by chance (Psex)
+_______________________________________________________________
+
+
+```r
+ult.cc %>% setPop(~Season)
+```
+
+```
+## 
+## This is a genclone object
+## -------------------------
+## Genotype information:
+## 
+##    65 original multilocus genotypes 
+##    79 diploid individuals
+##     6 codominant loci
+## 
+## Population information:
+## 
+##     2 strata - County, Season
+##     3 populations defined - fall-11, spring-13, fall-12
+```
+
+```r
+psex_season <- psex(ult.cc, by_pop = FALSE, method = "single")
+table(as.vector(psex_season < 0.05))
+```
+
+```
+## 
+## FALSE  TRUE 
+##    26    53
+```
+
+```r
+plot(psex_season, log = "y", col = ifelse(psex_season > 0.05, "red", "blue"))
+abline(h = 0.05, lty = 2)
+title("Probability of second encounter")
+```
+
+![](Clone_correction_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
+
 

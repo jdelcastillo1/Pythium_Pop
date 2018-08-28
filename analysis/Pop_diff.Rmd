@@ -18,13 +18,13 @@ if (length(new.pkg))
 sapply(pkg, require, character.only = TRUE)
 }
 
-packages <- c("ggplot2","RColorBrewer","poppr", "dplyr", "knitr","kableExtra", "mmod", "ggtree", "tibble")
+packages <- c("ggplot2","RColorBrewer","poppr", "dplyr", "knitr","kableExtra", "mmod", "ggtree", "tibble", "here")
 ipak(packages)
 ```
 
 
 ```{r Loading_data, echo=FALSE, message=FALSE}
-load(file.path("..","data", "Pyult.rda"))
+load(here("data", "Pyult.rda"))
 
 ultimhier.mn <- missingno(ultimhier, "geno")
 ult.cc <- clonecorrect(ultimhier.mn, ~County/Season, keep = 1:2)
@@ -69,7 +69,7 @@ ult.tree$tip.label <- stringr::str_trim(ult.tree$tip.label) %>%
   stringr::str_replace_all(" ","")
 
 
-Py_metadata <- read.csv("../data/Py_metadata.csv") %>%
+Py_metadata <- read.csv(here("data","Py_metadata.csv")) %>%
   select(Isolate, Origin, Season, Year, Species) %>%
   column_to_rownames("Isolate")
 

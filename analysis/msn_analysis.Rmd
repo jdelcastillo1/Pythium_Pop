@@ -18,13 +18,13 @@ if (length(new.pkg))
 sapply(pkg, require, character.only = TRUE)
 }
 
-packages <- c("ggplot2","RColorBrewer","poppr", "dplyr", "knitr","kableExtra")
+packages <- c("ggplot2","RColorBrewer","poppr", "dplyr", "knitr","kableExtra","here")
 ipak(packages)
 ```
 
 
 ```{r Loading_data, echo=FALSE, message=FALSE}
-load(file.path("..","data", "Pyult.rda"))
+load(here("data", "Pyult.rda"))
 ult.cc <- clonecorrect(ultimhier, ~County/Season, keep = 1:2)
 ```
 

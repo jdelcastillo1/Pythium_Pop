@@ -17,7 +17,7 @@ editor_options:
 
 ```r
 #Reading genealex object
-ultimhier <- read.genalex("../data/ult_pop_clean.csv")
+ultimhier <- read.genalex(here("data", "ult_pop_clean.csv"))
 
 #recode populations
 
@@ -76,22 +76,23 @@ Basic summary of Pythium population data and definition of multilocus genotypes.
 
 
 ```r
+setPop(ultimhier)<- ~Season
+#Table
 ult_table <- poppr(ultimhier)
+ult_table$Simpson <- ult_table$lambda*(ult_table$N/(ult_table$N - 1))
+
 knitr::kable(ult_table[,-13], format="markdown", digits = 3,
              caption=" Summary statistics of _P. ultimum_ populations")
 ```
 
 
 
-|Pop                 |   N| MLG|  eMLG|    SE|     H|      G| lambda|   E.5|  Hexp|    Ia| rbarD|
-|:-------------------|---:|---:|-----:|-----:|-----:|------:|------:|-----:|-----:|-----:|-----:|
-|kalamazoo_fall-11   |  79|  38| 7.538| 1.302| 3.019| 10.419|  0.904| 0.484| 0.520| 1.138| 0.267|
-|kent_fall-11        |   4|   2| 2.000| 0.000| 0.562|  1.600|  0.375| 0.795| 0.000|   NaN|   NaN|
-|wayne_spring-13     |   2|   2| 2.000| 0.000| 0.693|  2.000|  0.500| 1.000| 0.611|    NA|    NA|
-|kalamazoo_spring-13 |  16|  13| 8.875| 0.743| 2.513| 11.636|  0.914| 0.938| 0.482| 1.530| 0.326|
-|wayne_fall-12       |  18|   6| 4.791| 0.774| 1.523|  3.682|  0.728| 0.748| 0.383| 3.188| 0.704|
-|kalamazoo_fall-12   |  47|  18| 7.462| 1.097| 2.609| 11.213|  0.911| 0.812| 0.511| 1.284| 0.275|
-|Total               | 166|  65| 8.519| 1.086| 3.629| 21.562|  0.954| 0.561| 0.550| 1.194| 0.256|
+|Pop       |   N| MLG|   eMLG|    SE|     H|      G| lambda|   E.5|  Hexp|    Ia| rbarD| Simpson|
+|:---------|---:|---:|------:|-----:|-----:|------:|------:|-----:|-----:|-----:|-----:|-------:|
+|fall-11   |  83|  40| 12.237| 1.749| 3.094| 11.312|  0.912| 0.489| 0.529| 1.260| 0.286|   0.923|
+|spring-13 |  18|  14| 14.000| 0.000| 2.582| 12.462|  0.920| 0.937| 0.497| 1.321| 0.280|   0.974|
+|fall-12   |  65|  22| 11.136| 1.481| 2.709| 10.536|  0.905| 0.680| 0.511| 1.251| 0.260|   0.919|
+|Total     | 166|  65| 13.794| 1.661| 3.629| 21.562|  0.954| 0.561| 0.550| 1.194| 0.256|   0.959|
 
 Generating a table for the multilocus genotypes across populations
 

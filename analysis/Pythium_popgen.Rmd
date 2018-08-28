@@ -21,7 +21,7 @@ sapply(pkg, require, character.only = TRUE)
 
 
 ```{r libraries, echo=FALSE, message=FALSE, results='hide'}
-packages <- c("ggplot2","RColorBrewer","poppr", "dplyr", "knitr","kableExtra")
+packages <- c("ggplot2","RColorBrewer","poppr", "dplyr", "knitr","kableExtra", "here")
 ipak(packages)
 ```
 
@@ -29,7 +29,7 @@ ipak(packages)
 
 ```{r}
 #Reading genealex object
-ultimhier <- read.genalex("../data/ult_pop_clean.csv")
+ultimhier <- read.genalex(here("data", "ult_pop_clean.csv"))
 
 #recode populations
 
@@ -62,7 +62,11 @@ gac <- genotype_curve(ultimhier, sample = 1000, quiet = TRUE, thresh = 0.9)
 Basic summary of Pythium population data and definition of multilocus genotypes.
 
 ```{r summary}
+setPop(ultimhier)<- ~Season
+#Table
 ult_table <- poppr(ultimhier)
+ult_table$Simpson <- ult_table$lambda*(ult_table$N/(ult_table$N - 1))
+
 knitr::kable(ult_table[,-13], format="markdown", digits = 3,
              caption=" Summary statistics of _P. ultimum_ populations")
 ```
@@ -71,7 +75,6 @@ Generating a table for the multilocus genotypes across populations
 ```{r mlgs, fig.width=10}
 #Matrix indicating mulitlocus genotypes (MLGs) by population
 ult.tab <- mlg.table(ultimhier)
-
 #Associating MLGs to individual names
 mlg.ult <- mlg.id(ultimhier)
 #write.table(ult.tab, sep = ",", file = "data/mlg_tab.csv")

@@ -73,11 +73,13 @@ Py_metadata <- read.csv("../data/Py_metadata.csv") %>%
   select(Isolate, Origin, Season, Year, Species) %>%
   column_to_rownames("Isolate")
 
-ult.tr2 <- ggtree(ult.tree, branch.length = "none", layout = "circular") + 
+(ult.tr2 <- ggtree(ult.tree, layout = "circular") + 
   geom_tiplab2(align = TRUE) + 
   geom_text2(aes(label=label, subset = !is.na(as.numeric(label)) & as.numeric(label) > 50), vjust =-1, hjust=-.3) + 
-  xlim_tree(10) +
-  theme_tree()
+  xlim_tree(0.1) +
+  theme_tree())
+
+
 ```
 
 
@@ -88,15 +90,15 @@ colors <- c("#cf4661","#bf7658","#ce5d2a",
             "#7e63cb","#c851b8","#bf679b")
 
 #Adding heatmap
-ult.tr3 <- gheatmap(ult.tr2, Py_metadata, colnames = FALSE, width = 0.4, offset = 3.5)
+(ult.tr3 <- gheatmap(ult.tr2, Py_metadata, colnames = FALSE, width = 0.4, offset = 0.2))
 
 #Formatting colors and legend for heatmap
 lbl <- get_heatmap_column_position(ult.tr3, by="top")
 ult.tr3 + scale_fill_manual(breaks=c("Kalamazoo","Kent","Wayne","fall-11","fall-12","spring-13","2011","2012","2013",
                                        "P. ultimum ", "P. ultimum var. ultimum"), values = colors) +
   geom_text(data=lbl, aes(x, y, label=label), 
-            nudge_y = 1, 
-            nudge_x = -.7, 
+            nudge_y = 0.3, 
+            nudge_x = -0.03, 
             angle=60,
             size=4)
 ```

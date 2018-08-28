@@ -100,12 +100,28 @@ Py_metadata <- read.csv("../data/Py_metadata.csv") %>%
   select(Isolate, Origin, Season, Year, Species) %>%
   column_to_rownames("Isolate")
 
-ult.tr2 <- ggtree(ult.tree, branch.length = "none", layout = "circular") + 
+(ult.tr2 <- ggtree(ult.tree, layout = "circular") + 
   geom_tiplab2(align = TRUE) + 
   geom_text2(aes(label=label, subset = !is.na(as.numeric(label)) & as.numeric(label) > 50), vjust =-1, hjust=-.3) + 
-  xlim_tree(10) +
-  theme_tree()
+  xlim_tree(0.1) +
+  theme_tree())
 ```
+
+```
+## Warning in fun(x, ...): NAs introduced by coercion
+```
+
+```
+## Warning in fun(x, ...): NAs introduced by coercion
+```
+
+```
+## Warning in FUN(X[[i]], ...): NAs introduced by coercion
+
+## Warning in FUN(X[[i]], ...): NAs introduced by coercion
+```
+
+![](Pop_diff_files/figure-html/unnamed-chunk-3-2.png)<!-- -->
 
 
 
@@ -116,20 +132,24 @@ colors <- c("#cf4661","#bf7658","#ce5d2a",
             "#7e63cb","#c851b8","#bf679b")
 
 #Adding heatmap
-ult.tr3 <- gheatmap(ult.tr2, Py_metadata, colnames = FALSE, width = 0.4, offset = 3.5)
+(ult.tr3 <- gheatmap(ult.tr2, Py_metadata, colnames = FALSE, width = 0.4, offset = 0.2))
+```
 
+<img src="Pop_diff_files/figure-html/unnamed-chunk-4-1.png" style="display: block; margin: auto;" />
+
+```r
 #Formatting colors and legend for heatmap
 lbl <- get_heatmap_column_position(ult.tr3, by="top")
 ult.tr3 + scale_fill_manual(breaks=c("Kalamazoo","Kent","Wayne","fall-11","fall-12","spring-13","2011","2012","2013",
                                        "P. ultimum ", "P. ultimum var. ultimum"), values = colors) +
   geom_text(data=lbl, aes(x, y, label=label), 
-            nudge_y = 1, 
-            nudge_x = -.7, 
+            nudge_y = 0.3, 
+            nudge_x = -0.03, 
             angle=60,
             size=4)
 ```
 
-<img src="Pop_diff_files/figure-html/unnamed-chunk-4-1.png" style="display: block; margin: auto;" />
+<img src="Pop_diff_files/figure-html/unnamed-chunk-4-2.png" style="display: block; margin: auto;" />
 
 
 
@@ -170,28 +190,31 @@ ult.nan.cc <-  clonecorrect(ult.nan, ~County/Season)
 ```
 
 ```
+## Warning in poppr.amova(ult.nan.cc, ~Season, within = TRUE): Data with mixed ploidy or ambiguous allele dosage cannot have within-individual variance calculated until the dosage is correctly estimated.
+## 
+##  This function will return the summary statistic, rho (Ronfort et al 1998) but be aware that this estimate will be skewed due to ambiguous dosage. If you have zeroes encoded in your data, you may wish to remove them.
+##  To remove this warning, use within = FALSE
+```
+
+```
 ## $call
 ## ade4::amova(samples = xtab, distances = xdist, structures = xstruct)
 ## 
 ## $results
-##                               Df     Sum Sq  Mean Sq
-## Between Season                 2   6.305138 3.152569
-## Between samples Within Season 39  70.254386 1.801395
-## Within samples                42  62.500000 1.488095
-## Total                         83 139.059524 1.675416
+##                 Df    Sum Sq  Mean Sq
+## Between samples  2  6.305138 3.152569
+## Within samples  39 70.254386 1.801395
+## Total           41 76.559524 1.867305
 ## 
 ## $componentsofcovariance
-##                                                Sigma          %
-## Variations  Between Season                0.05264316   3.101422
-## Variations  Between samples Within Season 0.15664964   9.228864
-## Variations  Within samples                1.48809524  87.669714
-## Total variations                          1.69738803 100.000000
+##                                 Sigma          %
+## Variations  Between samples 0.1052863   5.521969
+## Variations  Within samples  1.8013945  94.478031
+## Total variations            1.9066808 100.000000
 ## 
 ## $statphi
-##                           Phi
-## Phi-samples-total  0.12330286
-## Phi-samples-Season 0.09524251
-## Phi-Season-total   0.03101422
+##                          Phi
+## Phi-samples-total 0.05521969
 ```
 
 ```r
@@ -204,31 +227,35 @@ ult.nan.cc <-  clonecorrect(ult.nan, ~County/Season)
 ```
 
 ```
+## Warning in poppr.amova(ult.nan.cc, ~County/Season): Data with mixed ploidy or ambiguous allele dosage cannot have within-individual variance calculated until the dosage is correctly estimated.
+## 
+##  This function will return the summary statistic, rho (Ronfort et al 1998) but be aware that this estimate will be skewed due to ambiguous dosage. If you have zeroes encoded in your data, you may wish to remove them.
+##  To remove this warning, use within = FALSE
+```
+
+```
 ## $call
 ## ade4::amova(samples = xtab, distances = xdist, structures = xstruct)
 ## 
 ## $results
-##                               Df     Sum Sq  Mean Sq
-## Between County                 2   6.409524 3.204762
-## Between Season Within County   3   7.500893 2.500298
-## Between samples Within Season 36  62.649107 1.740253
-## Within samples                42  62.500000 1.488095
-## Total                         83 139.059524 1.675416
+##                               Df    Sum Sq  Mean Sq
+## Between County                 2  6.409524 3.204762
+## Between samples Within County  3  7.500893 2.500298
+## Within samples                36 62.649107 1.740253
+## Total                         41 76.559524 1.867305
 ## 
 ## $componentsofcovariance
 ##                                                Sigma          %
-## Variations  Between County                0.09370442   5.332099
-## Variations  Between Season Within County  0.04948616   2.815930
-## Variations  Between samples Within Season 0.12607887   7.174314
-## Variations  Within samples                1.48809524  84.677656
-## Total variations                          1.75736469 100.000000
+## Variations  Between County                0.18740885   9.247295
+## Variations  Between samples Within County 0.09897233   4.883581
+## Variations  Within samples                1.74025298  85.869123
+## Total variations                          2.02663415 100.000000
 ## 
 ## $statphi
 ##                           Phi
-## Phi-samples-total  0.15322344
-## Phi-samples-Season 0.07810735
-## Phi-Season-County  0.02974535
-## Phi-County-total   0.05332099
+## Phi-samples-total  0.14130877
+## Phi-samples-County 0.05381197
+## Phi-County-total   0.09247295
 ```
 
 ```r
@@ -242,18 +269,17 @@ set.seed(1999)
 ```
 
 ```
-## class: krandtest lightkrandtest 
-## Monte-Carlo tests
-## Call: randtest.amova(xtest = ultimhieramova, nrepet = 1000)
+## Monte-Carlo test
+## Call: as.randtest(sim = res, obs = sigma[1])
 ## 
-## Number of tests:   3 
+## Observation: 0.1052863 
 ## 
-## Adjustment method for multiple comparisons:   none 
-## Permutation number:   1000 
-##                         Test        Obs   Std.Obs   Alter     Pvalue
-## 1  Variations within samples 1.48809524 -1.786049    less 0.05194805
-## 2 Variations between samples 0.15664964  1.423197 greater 0.06693307
-## 3  Variations between Season 0.05264316  1.586280 greater 0.06493506
+## Based on 1000 replicates
+## Simulated p-value: 0.08591409 
+## Alternative hypothesis: greater 
+## 
+##     Std.Obs Expectation    Variance 
+## 1.492728411 0.002857985 0.004708457
 ```
 
 ```r
@@ -272,15 +298,14 @@ set.seed(1999)
 ## Monte-Carlo tests
 ## Call: randtest.amova(xtest = ultimhieramova0, nrepet = 1000)
 ## 
-## Number of tests:   4 
+## Number of tests:   3 
 ## 
 ## Adjustment method for multiple comparisons:   none 
 ## Permutation number:   1000 
-##                         Test        Obs    Std.Obs   Alter     Pvalue
-## 1  Variations within samples 1.48809524 -1.8251857    less 0.04295704
-## 2 Variations between samples 0.12607887  1.0135925 greater 0.17482517
-## 3  Variations between Season 0.04948616  0.9748944 greater 0.15384615
-## 4  Variations between County 0.09370442  1.3155281 greater 0.10489510
+##                         Test        Obs   Std.Obs   Alter     Pvalue
+## 1  Variations within samples 1.74025298 -2.231036    less 0.02497502
+## 2 Variations between samples 0.09897233  1.025227 greater 0.15084915
+## 3  Variations between County 0.18740885  1.406895 greater 0.09890110
 ```
 
 ```r
@@ -288,5 +313,4 @@ plot(ultmsignif0)
 ```
 
 ![](Pop_diff_files/figure-html/unnamed-chunk-5-2.png)<!-- -->
-
 

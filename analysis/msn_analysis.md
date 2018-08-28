@@ -47,7 +47,7 @@ season.colors <- c("#4daf4a", "#984ea3", "#ff7f00")
 set.seed(9001)
 plot_poppr_msn(ultimhier,
                season.msn,
-               inds = "none",
+               inds = "ALL",
                mlg = TRUE,
                gadj = 3,
                nodescale = 40,

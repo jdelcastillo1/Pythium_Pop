@@ -6,6 +6,9 @@ Citation
 ========
 > Del Castillo Múnera, J. et al. (XXX). Population Structure of Pythium ultimum from Greenhouse Floral Crops in Michigan. In preparation.
 
+Please use the following DOI to cite this data and associated functions/analyses.
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1405257.svg)](https://doi.org/10.5281/zenodo.1405257)
+
 Contents
 ========
 1. [Locus stats, MLGs and Hierarchy](analysis/Pythium_popgen.md)
